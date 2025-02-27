@@ -4,7 +4,6 @@
     import CalculatorTerje from "$lib/Calculator_Terje.svelte";
 
 </script>
-
+<Calculator />
 <CalculatorErle />
 <CalculatorTerje />
-<Calculator />
