@@ -6,9 +6,16 @@
 
 
     function handleClick(value) {
-
-                inputString = inputString + value;
-
+        //C - Restet Calc
+        if (value ==="C"){
+            inputString ="";
+        // Back - Bacspace, remove last character
+        } else if (value === "Back"){
+            inputString = inputString.slice(0,-1);
+        // Input number
+        } else {
+            inputString = inputString + value;
+        }
     }
 
 
@@ -20,8 +27,8 @@
     
     <div class="buttoncontainer">
         <!-- Rader 3 til 7 med 4 kolonner -->
-        <button class="operator">C</button>
-        <button class="operator"><img src="images/backspace_25dp.svg"></button>
+        <button class="operator" on:click={() => handleClick("C")}>C</button>
+        <button class="operator" on:click={() => handleClick("Back")}><img src="images/backspace_25dp.svg"></button>
         <button class="operator">&radic;</button>
         <button class="operator">&divide;</button>
 
