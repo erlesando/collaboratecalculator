@@ -36,9 +36,7 @@
 
 </div>
 <style>
-
     @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=backspace');
-    
     .buttoncontainer {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -48,8 +46,6 @@
         width:90%;
         margin:auto;
         margin-top:10px;
-
-
     }
 	.box {
 		border: 2px solid black;
@@ -84,14 +80,10 @@
     .equal:hover {
         background: rgb(241, 160, 9);
     }        
-
 	button {
 		border: 1px solid black;
 		border-radius: 6px
 	}
-
-
-
 	.outer {
 		width: 250px;
 		height: 380px;
