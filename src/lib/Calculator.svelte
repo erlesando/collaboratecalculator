@@ -46,7 +46,12 @@
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(5, 1fr);
         gap: 5px;
-        margin-left: 15px;
+        height:280px;
+        width:90%;
+        margin:auto;
+        margin-top:10px;
+
+
     }
 	.box {
 		border: 2px solid black;
@@ -71,11 +76,9 @@
     }    
 
 	button {
-		width:50px;
-		height:50px;
 		border: 1px solid black;
-		position: relative;
-		top: 20px;
+		xposition: relative;
+		xtop: 20px;
 		border-radius: 6px
 	}
 
@@ -85,11 +88,7 @@
 		height: 380px;
 		background-color: darkgray;
 		text-align: center;
-		margin: 100px;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: auto auto repeat(5, 1fr);
-        gap: 3px
+		margin: 0px;
 	}
 
 	.inputbox {
