@@ -60,9 +60,18 @@
         font-size:20px;
         background:lightgray;
     }
+    
+    .operator:hover{
+        background:rgb(173, 173, 173);
+    }
 
     .number{
         font-size:20px;
+        background:#f0f0f0;
+    }
+
+    .number:hover {
+        background:#dbdbdb;
     }
 
     .zero {
@@ -71,14 +80,16 @@
 
     .equal {
         background: orange;
-    }    
+    }
+    .equal:hover {
+        background: rgb(241, 160, 9);
+    }        
 
 	button {
 		border: 1px solid black;
-		xposition: relative;
-		xtop: 20px;
 		border-radius: 6px
 	}
+
 
 
 	.outer {
