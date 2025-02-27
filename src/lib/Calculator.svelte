@@ -2,10 +2,21 @@
 	let displayed = $state("");
 	let equalstate = $state(0);
 	let buttons = ["CE","bs", "sq", "&divide;", "7","8","9","x","4","5","6","-","1","2","3","+","0",".","="]
+    let inputString = $state("");
+
+
+    function handleClick(value) {
+
+                inputString = inputString + value;
+
+    }
+
+
+
 </script>
 
 <div class="box outer">
-    <input class="box inputbox" style="color:black">	
+    <input class="box inputbox" style="color:black" readonly value={inputString}>	
     
     <div class="buttoncontainer">
         <!-- Rader 3 til 7 med 4 kolonner -->
@@ -14,22 +25,22 @@
         <button class="operator">&radic;</button>
         <button class="operator">&divide;</button>
 
-        <button class="number">7</button>
-        <button class="number">8</button>
-        <button class="number">9</button>
+        <button class="number" on:click={() => handleClick(7)}>7</button>
+        <button class="number" on:click={() => handleClick(8)}>8</button>
+        <button class="number" on:click={() => handleClick(9)}>9</button>
         <button class="operator">&times;</button>
         
-        <button class="number">4</button>
-        <button class="number">5</button>
-        <button class="number">6</button>
+        <button class="number" on:click={() => handleClick(4)}>4</button>
+        <button class="number" on:click={() => handleClick(5)}>5</button>
+        <button class="number" on:click={() => handleClick(6)}>6</button>
         <button class="operator">-</button>
         
-        <button class="number">1</button>
-        <button class="number">2</button>
-        <button class="number">3</button>
+        <button class="number" on:click={() => handleClick(1)}>1</button>
+        <button class="number" on:click={() => handleClick(2)}>2</button>
+        <button class="number" on:click={() => handleClick(3)}>3</button>
         <button class="operator">+</button>
         
-        <button class="number zero">0</button>
+        <button class="number zero" on:click={() => handleClick(0)}>0</button>
         <button class="number">,</button>
         <button class="equal">=</button>        
     </div>
