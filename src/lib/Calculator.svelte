@@ -10,7 +10,9 @@
     <div class="buttoncontainer">
         <!-- Rader 3 til 7 med 4 kolonner -->
         <button class="operator">C</button>
-        <button class="operator">&;</button>
+        <button class="operator"><span class="material-symbols-outlined">
+            backspace
+            </span></button>
         <button class="operator">&radic;</button>
         <button class="operator">&divide;</button>
 
@@ -36,6 +38,9 @@
 
 </div>
 <style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=backspace');
+    
     .buttoncontainer {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
