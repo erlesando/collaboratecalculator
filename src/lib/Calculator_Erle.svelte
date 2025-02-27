@@ -2,6 +2,8 @@
 	let displayed = $state("");
 	let equalstate = $state(0);
 	let buttons = ["CE","C", "(", ")", "7","8","9","/","4","5","6","x","1","2","3","-","0",".","+","="]
+
+	
 	function checkIfAllowed(key) {
 		const allowedKeys = "0123456789+-*/()=.";
 		const allowedKeys2 = ["Enter", "Backspace", "Shift", "ArrowRight", "ArrowLeft"]

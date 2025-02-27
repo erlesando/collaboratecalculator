@@ -10,9 +10,7 @@
     <div class="buttoncontainer">
         <!-- Rader 3 til 7 med 4 kolonner -->
         <button class="operator">C</button>
-        <button class="operator"><span class="material-symbols-outlined">
-            backspace
-            </span></button>
+        <button class="operator"><img src="images/backspace_25dp.svg"></button>
         <button class="operator">&radic;</button>
         <button class="operator">&divide;</button>
 
