@@ -235,7 +235,7 @@
             width: 300px;
             margin: auto;
             text-align: center;
-            background:pink;
+            background:#f6f6f6;
             padding:10px;
             padding-top:16px;
             padding-bottom:16px;
