@@ -5,13 +5,16 @@
     let inputString = $state("");
 
 
-    function handleClick(value) {
+    function onButtonClick(value) {
         //C - Restet Calc
         if (value ==="C"){
             inputString ="";
         // Back - Bacspace, remove last character
-        } else if (value === "Back"){
+        } else if (value === "back"){
             inputString = inputString.slice(0,-1);
+        // Input number
+        } else if (value === "radic"){
+            inputString = inputString + "√"
         // Input number
         } else {
             inputString = inputString + value;
@@ -27,27 +30,27 @@
     
     <div class="buttoncontainer">
         <!-- Rader 3 til 7 med 4 kolonner -->
-        <button class="operator" on:click={() => handleClick("C")}>C</button>
-        <button class="operator" on:click={() => handleClick("Back")}><img src="images/backspace_25dp.svg"></button>
-        <button class="operator">&radic;</button>
+        <button class="operator" on:click={() => onButtonClick("C")}>C</button>
+        <button class="operator" on:click={() => onButtonClick("back")}><img src="images/backspace_25dp.svg"></button>
+        <button class="operator" on:click={() => onButtonClick("radic")}>&radic;</button>
         <button class="operator">&divide;</button>
 
-        <button class="number" on:click={() => handleClick(7)}>7</button>
-        <button class="number" on:click={() => handleClick(8)}>8</button>
-        <button class="number" on:click={() => handleClick(9)}>9</button>
+        <button class="number" on:click={() => onButtonClick(7)}>7</button>
+        <button class="number" on:click={() => onButtonClick(8)}>8</button>
+        <button class="number" on:click={() => onButtonClick(9)}>9</button>
         <button class="operator">&times;</button>
         
-        <button class="number" on:click={() => handleClick(4)}>4</button>
-        <button class="number" on:click={() => handleClick(5)}>5</button>
-        <button class="number" on:click={() => handleClick(6)}>6</button>
+        <button class="number" on:click={() => onButtonClick(4)}>4</button>
+        <button class="number" on:click={() => onButtonClick(5)}>5</button>
+        <button class="number" on:click={() => onButtonClick(6)}>6</button>
         <button class="operator">-</button>
         
-        <button class="number" on:click={() => handleClick(1)}>1</button>
-        <button class="number" on:click={() => handleClick(2)}>2</button>
-        <button class="number" on:click={() => handleClick(3)}>3</button>
+        <button class="number" on:click={() => onButtonClick(1)}>1</button>
+        <button class="number" on:click={() => onButtonClick(2)}>2</button>
+        <button class="number" on:click={() => onButtonClick(3)}>3</button>
         <button class="operator">+</button>
         
-        <button class="number zero" on:click={() => handleClick(0)}>0</button>
+        <button class="number zero" on:click={() => onButtonClick(0)}>0</button>
         <button class="number">,</button>
         <button class="equal">=</button>        
     </div>
