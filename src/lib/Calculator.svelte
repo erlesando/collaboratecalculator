@@ -3,6 +3,41 @@
 	let equalstate = $state(0);
 	let buttons = ["CE","bs", "sq", "&divide;", "7","8","9","x","4","5","6","-","1","2","3","+","0",".","="]
     let inputString = $state("");
+    let inputFloat = $state(0);
+
+
+    function calculate(expression) {
+        // Replace × and ÷
+        expression = expression.replace(/×/g, "*").replace(/÷/g, "/");
+
+        // Replace √
+        expression = expression.replace(/√(\d+(\.\d+)?)/g, (match, number) => {
+            return Math.sqrt(parseFloat(number)); // Erstatt √9 med 3
+        });
+
+        // Get numbers and operators
+        let numbers = expression.match(/\d+(\.\d+)?/g).map(Number); 
+        let operators = expression.match(/[+\-*/]/g); 
+
+        // Beregn resultatet trinnvis (venstre-til-høyre for + og -)
+        let result = numbers[0];
+
+        for (let i = 0; i < operators?.length; i++) {
+            let nextNumber = numbers[i + 1];
+
+            switch (operators[i]) {
+                case "+": result += nextNumber; break;
+                case "-": result -= nextNumber; break;
+                case "*": result *= nextNumber; break;
+                case "/": result /= nextNumber; break;
+            }
+        }
+
+        console.log(expression);
+        console.log(result)
+        inputString = result;
+        return result;
+    }
 
 
     function onButtonClick(value) {
@@ -28,11 +63,31 @@
                         return;
                     }
                 }
+
+                // Alow minus first
+                if (inputString === "" && value === "-") {
+                    inputString = value;
+                    return;                  
+                }
+                // Alow √ first
+                if (inputString === "" && value === "√") {
+                    inputString = value;
+                    return;                  
+                }
                 //If last operator is same
                 if (!/\d/.test(inputString.slice(-1))) {
                     return;
                 }
-        }
+                
+                //If equal 
+                if (value === "=") {
+                    calculate(inputString);
+                    return;
+
+
+
+                }
+            }
             
             inputString = inputString + value;
         }
