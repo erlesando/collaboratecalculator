@@ -7,6 +7,8 @@
 
 
     function calculate(expression) {
+        const operatorsigns = "+-*/"
+
         // Replace × and ÷
         expression = expression.replace(/×/g, "*").replace(/÷/g, "/");
 
@@ -25,7 +27,12 @@
 
         for (let i = 0; i < operators?.length; i++) {
             let nextNumber = numbers[i + 1];
-
+            console.log("nextNumber: " + numbers[i+1]);
+            console.log("operator:" + operators[i]);
+            if (operatorsigns.includes(operators[i-1]) && operators[i] === "-") {
+                operators[i] = operators[i - 1]
+                nextNumber = -nextNumber;
+            }
             switch (operators[i]) {
                 case "+": result += nextNumber; break;
                 case "-": result -= nextNumber; break;
@@ -42,6 +49,8 @@
 
 
     function onButtonClick(value) {
+        const operators = "+-*/"
+
         //C - Reset calculator
         if (value ==="C"){
             inputString ="";
@@ -64,11 +73,17 @@
                         return;
                     }
                 }
-                // Alow minus as first character
+                // Alow minus as first character and after operator
                 if (inputString === "" && value === "-") {
                     inputString = value;
                     return;                  
                 }
+
+                if (operators.includes(inputString[inputString.length-1]) && value === "-" && inputString[inputString.length-1] !== ")") {
+                    inputString = inputString + value;
+                    return;
+                }
+
                 // Alow √ as first character
                 if (inputString === "" && value === "√") {
                     inputString = value;
@@ -77,6 +92,7 @@
                 //If equal 
                 if (value === "=") {
                     calculate(inputString);
+                    equalstate = 1;
                     return;
                 }
                 //If last operator is same
@@ -85,12 +101,10 @@
                 }             
             }
             
-            inputString = inputString + value;
+            inputString = (equalstate === 0 ? inputString + value : value);
+            equalstate = 0;
         }
     }
-
-
-
 </script>
 
 <div class="box outer">
