@@ -16,6 +16,7 @@
         });
 
         // Get numbers and operators
+        // FØRSTE TALL SOM MINUS FUNGERER IKKE
         let numbers = expression.match(/\d+(\.\d+)?/g).map(Number); 
         let operators = expression.match(/[+\-*/]/g); 
 
@@ -58,18 +59,17 @@
             } else {
                 // If comma
                 if(value === ",") {
-                    // If comma, dont add comma
+                    // If comma, dont add new comma
                     if (/,/.test(inputString)){
                         return;
                     }
                 }
-
-                // Alow minus first
+                // Alow minus as first character
                 if (inputString === "" && value === "-") {
                     inputString = value;
                     return;                  
                 }
-                // Alow √ first
+                // Alow √ as first character
                 if (inputString === "" && value === "√") {
                     inputString = value;
                     return;                  
@@ -82,9 +82,7 @@
                 //If last operator is same
                 else if (!/\d/.test(inputString.slice(-1))) {
                     return;
-                }
-                
-
+                }             
             }
             
             inputString = inputString + value;
