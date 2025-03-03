@@ -12,12 +12,6 @@
         // Back - Bacspace, remove last character
         } else if (value === "backspace"){
             inputString = inputString.slice(0,-1);
-        // Input ROT
-        } else if (value === "√"){
-            inputString = inputString + "√"
-        } else if (value === "/"){
-            inputString = inputString + "÷"
-        // Input number
         } else {
             inputString = inputString + value;
         }
@@ -34,13 +28,13 @@
         <!-- Rader 3 til 7 med 4 kolonner -->
         <button class="operator" on:click={() => onButtonClick("C")}>C</button>
         <button class="operator" on:click={() => onButtonClick("backspace")}><img src="images/backspace_25dp.svg"></button>
-        <button class="operator" on:click={() => onButtonClick("√")}>√;</button>
-        <button class="operator" on:click={() => onButtonClick("÷")}>÷;</button>
+        <button class="operator" on:click={() => onButtonClick("√")}>√</button>
+        <button class="operator" on:click={() => onButtonClick("÷")}>÷</button>
 
         <button class="number" on:click={() => onButtonClick(7)}>7</button>
         <button class="number" on:click={() => onButtonClick(8)}>8</button>
         <button class="number" on:click={() => onButtonClick(9)}>9</button>
-        <button class="operator" on:click={() => onButtonClick("×")}>×;</button>
+        <button class="operator" on:click={() => onButtonClick("×")}>×</button>
         
         <button class="number" on:click={() => onButtonClick(4)}>4</button>
         <button class="number" on:click={() => onButtonClick(5)}>5</button>
