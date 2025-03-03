@@ -74,19 +74,17 @@
                     inputString = value;
                     return;                  
                 }
-                //If last operator is same
-                if (!/\d/.test(inputString.slice(-1))) {
-                    return;
-                }
-                
                 //If equal 
                 if (value === "=") {
                     calculate(inputString);
                     return;
-
-
-
                 }
+                //If last operator is same
+                else if (!/\d/.test(inputString.slice(-1))) {
+                    return;
+                }
+                
+
             }
             
             inputString = inputString + value;
