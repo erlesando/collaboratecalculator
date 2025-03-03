@@ -6,13 +6,34 @@
 
 
     function onButtonClick(value) {
-        //C - Restet Calc
+        //C - Reset calculator
         if (value ==="C"){
             inputString ="";
-        // Back - Bacspace, remove last character
+        // Bacspace, remove last character
         } else if (value === "backspace"){
             inputString = inputString.slice(0,-1);
         } else {
+            // If number
+            if (/\d/.test(value)){
+                // If empty, dont add 0;
+                if (inputString === "" && value === 0){
+                    return;
+                }
+            // If not number
+            } else {
+                // If comma
+                if(value === ",") {
+                    // If comma, dont add comma
+                    if (/,/.test(inputString)){
+                        return;
+                    }
+                }
+                //If last operator is same
+                if (!/\d/.test(inputString.slice(-1))) {
+                    return;
+                }
+        }
+            
             inputString = inputString + value;
         }
     }
