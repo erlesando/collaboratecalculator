@@ -5,12 +5,12 @@
     let inputString = $state("");
     let inputFloat = $state(0);
 
-
     function calculate(expression) {
         const operatorsigns = "+-*/"
 
-        // Replace × and ÷
+        // Replace ×, ÷ and comma
         expression = expression.replace(/×/g, "*").replace(/÷/g, "/");
+        expression = expression.replace(/,/g, ".");
 
         // Replace √
         expression = expression.replace(/√(\d+(\.\d+)?)/g, (match, number) => {
@@ -18,21 +18,24 @@
         });
 
         // Get numbers and operators
-        // FØRSTE TALL SOM MINUS FUNGERER IKKE
-        let numbers = expression.match(/\d+(\.\d+)?/g).map(Number); 
-        let operators = expression.match(/[+\-*/]/g); 
+        let numbers = expression.match(/\d+(\.\d+)?/g).map(Number);
+        let operators = expression.match(/[+\-*/]/g);
+        
+        // Mulighet for negative tall
+        for (let i = 0; i < operators?.length; i++) {
+            if ((operatorsigns.includes(operators[i-1]) && operators[i] === "-") || (expression[0] === "-" && i === 0)) {
+                operators.splice(i, 1);
+                numbers[i] = -numbers[i];
+            }
+        }
+
+        console.log("operators", operators);
+        console.log("numbers", numbers);
 
         // Beregn resultatet trinnvis (venstre-til-høyre for + og -)
         let result = numbers[0];
-
         for (let i = 0; i < operators?.length; i++) {
             let nextNumber = numbers[i + 1];
-            console.log("nextNumber: " + numbers[i+1]);
-            console.log("operator:" + operators[i]);
-            if (operatorsigns.includes(operators[i-1]) && operators[i] === "-") {
-                operators[i] = operators[i - 1]
-                nextNumber = -nextNumber;
-            }
             switch (operators[i]) {
                 case "+": result += nextNumber; break;
                 case "-": result -= nextNumber; break;
@@ -40,26 +43,29 @@
                 case "/": result /= nextNumber; break;
             }
         }
-
-        console.log(expression);
-        console.log(result)
-        inputString = result;
+        inputString = Math.round(result * 100000000) / 100000000;
         return result;
     }
 
-
     function onButtonClick(value) {
-        const operators = "+-*/"
+        const operatorsigns = "+-/×/g/÷/g"
+        const numbers = "0123456789"
 
         //C - Reset calculator
-        if (value ==="C"){
-            inputString ="";
-        // Bacspace, remove last character
+        if (value === "C"){
+            inputString = "";
+            equalstate = 0;
+        // Backspace, remove last character
         } else if (value === "backspace"){
-            inputString = inputString.slice(0,-1);
+            if (inputString.length > 0){
+                inputString = inputString.slice(0,-1);
+            } else {
+                inputString = "";
+            }
+            equalstate = 0;
         } else {
             // If number
-            if (/\d/.test(value)){
+            if (numbers.includes(value)) {
                 // If empty, dont add 0;
                 if (inputString === "" && value === 0){
                     return;
@@ -69,17 +75,22 @@
                 // If comma
                 if(value === ",") {
                     // If comma, dont add new comma
-                    if (/,/.test(inputString)){
+                    if (equalstate === 0) {
+                        let split = (/[+-/×/g/÷/g]/.test(inputString) ? inputString.split(/[\+\-\/×/g\/÷/g]/) : "675");
+                        if (/,/.test(split[split.length-1]) || (operatorsigns.includes(inputString[inputString.length-1]) && value === ",")) {
+                            return;
+                        }
+                    } else {
                         return;
                     }
                 }
                 // Alow minus as first character and after operator
                 if (inputString === "" && value === "-") {
                     inputString = value;
-                    return;                  
+                    return;    
                 }
 
-                if (operators.includes(inputString[inputString.length-1]) && value === "-" && inputString[inputString.length-1] !== ")") {
+                if (operatorsigns.includes(inputString[inputString.length-1]) && value === "-") {
                     inputString = inputString + value;
                     return;
                 }
@@ -87,7 +98,7 @@
                 // Alow √ as first character
                 if (inputString === "" && value === "√") {
                     inputString = value;
-                    return;                  
+                    return;
                 }
                 //If equal 
                 if (value === "=") {
@@ -96,12 +107,11 @@
                     return;
                 }
                 //If last operator is same
-                else if (!/\d/.test(inputString.slice(-1))) {
+                else if (operatorsigns.includes(inputString[inputString.length-1]) && operatorsigns.includes(value) && value !== "-") {
                     return;
-                }             
+                }
             }
-            
-            inputString = (equalstate === 0 ? inputString + value : value);
+            inputString = (equalstate === 0 || operatorsigns.includes(value) ? inputString + value.toString() : value);
             equalstate = 0;
         }
     }
@@ -112,29 +122,29 @@
     
     <div class="buttoncontainer">
         <!-- Rader 3 til 7 med 4 kolonner -->
-        <button class="operator" on:click={() => onButtonClick("C")}>C</button>
-        <button class="operator" on:click={() => onButtonClick("backspace")}><img src="images/backspace_25dp.svg"></button>
-        <button class="operator" on:click={() => onButtonClick("√")}>√</button>
-        <button class="operator" on:click={() => onButtonClick("÷")}>÷</button>
+        <button class="operator" onclick={() => onButtonClick("C")}>C</button>
+        <button class="operator" onclick={() => onButtonClick("backspace")}><img src="images/backspace_25dp.svg"></button>
+        <button class="operator" onclick={() => onButtonClick("√")}>√</button>
+        <button class="operator" onclick={() => onButtonClick("÷")}>÷</button>
 
-        <button class="number" on:click={() => onButtonClick(7)}>7</button>
-        <button class="number" on:click={() => onButtonClick(8)}>8</button>
-        <button class="number" on:click={() => onButtonClick(9)}>9</button>
-        <button class="operator" on:click={() => onButtonClick("×")}>×</button>
+        <button class="number" onclick={() => onButtonClick(7)}>7</button>
+        <button class="number" onclick={() => onButtonClick(8)}>8</button>
+        <button class="number" onclick={() => onButtonClick(9)}>9</button>
+        <button class="operator" onclick={() => onButtonClick("×")}>×</button>
         
-        <button class="number" on:click={() => onButtonClick(4)}>4</button>
-        <button class="number" on:click={() => onButtonClick(5)}>5</button>
-        <button class="number" on:click={() => onButtonClick(6)}>6</button>
-        <button class="operator" on:click={() => onButtonClick("-")}>-</button>
+        <button class="number" onclick={() => onButtonClick(4)}>4</button>
+        <button class="number" onclick={() => onButtonClick(5)}>5</button>
+        <button class="number" onclick={() => onButtonClick(6)}>6</button>
+        <button class="operator" onclick={() => onButtonClick("-")}>-</button>
         
-        <button class="number" on:click={() => onButtonClick(1)}>1</button>
-        <button class="number" on:click={() => onButtonClick(2)}>2</button>
-        <button class="number" on:click={() => onButtonClick(3)}>3</button>
-        <button class="operator" on:click={() => onButtonClick("+")}>+</button>
+        <button class="number" onclick={() => onButtonClick(1)}>1</button>
+        <button class="number" onclick={() => onButtonClick(2)}>2</button>
+        <button class="number" onclick={() => onButtonClick(3)}>3</button>
+        <button class="operator" onclick={() => onButtonClick("+")}>+</button>
         
-        <button class="number zero" on:click={() => onButtonClick(0)}>0</button>
-        <button class="number" on:click={() => onButtonClick(",")}>,</button>
-        <button class="equal" on:click={() => onButtonClick("=")}>=</button>        
+        <button class="number zero" onclick={() => onButtonClick(0)}>0</button>
+        <button class="number" onclick={() => onButtonClick(",")}>,</button>
+        <button class="equal" onclick={() => onButtonClick("=")}>=</button>        
     </div>
 
 </div>
