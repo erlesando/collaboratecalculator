@@ -83,6 +83,7 @@
             }
         }
         inputString = Math.round(result * 100000000) / 100000000;
+        inputString = inputString.toString().replace(".", ",");
         return result;
     }
 
