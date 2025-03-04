@@ -1,7 +1,5 @@
 <script>
-	let displayed = $state("");
 	let equalstate = $state(0);
-	let buttons = ["CE","bs", "sq", "&divide;", "7","8","9","x","4","5","6","-","1","2","3","+","0",".","="]
     let inputString = $state("");
     let inputFloat = $state(0);
 
@@ -14,33 +12,69 @@
 
         // Replace √
         expression = expression.replace(/√(\d+(\.\d+)?)/g, (match, number) => {
-            return Math.sqrt(parseFloat(number)); // Erstatt √9 med 3
+            return "*" + Math.sqrt(parseFloat(number)); // Erstatt √9 med 3
         });
-
-        // Get numbers and operators
-        let numbers = expression.match(/\d+(\.\d+)?/g).map(Number);
-        let operators = expression.match(/[+\-*/]/g);
+        function splitExpression(expression) {
+            return expression.split(/([+\-*/])/).filter(item => item.trim() !== "");
+        }
         
-        // Mulighet for negative tall
-        for (let i = 0; i < operators?.length; i++) {
-            if ((operatorsigns.includes(operators[i-1]) && operators[i] === "-") || (expression[0] === "-" && i === 0)) {
-                operators.splice(i, 1);
-                numbers[i] = -numbers[i];
+        let expressionarray = splitExpression(expression);
+
+        let numberofoperators = 0;
+        let numberofnumbers = 0;
+        let removeoperators = [];
+        let changenumbers = [];
+
+        // Fjerning av * foran kvadratrot når flere * er tilstede
+        for (let i = 0; i < expressionarray?.length; i++) {
+            if (operatorsigns.includes(expressionarray[i])) {
+                numberofoperators++;
+            } else {
+                numberofnumbers++;
+            }
+            if ((operatorsigns.includes(expressionarray[i-1]) && expressionarray[i] === "*") || (expressionarray[0] === "*" && i === 0)) {
+                expressionarray.splice(i, 1);
+            }
+            if ((operatorsigns.includes(expressionarray[i-1]) && expressionarray[i] === "-") || (expressionarray[0] === "-" && i === 0)) {
+                    removeoperators.push(numberofoperators-1);
+                    changenumbers.push(numberofnumbers);
             }
         }
+        // Get numbers and operators
+        let expressionString = expressionarray.join("");
+        let numbers = expressionString.match(/\d+(\.\d+)?/g).map(Number);
+        let operators = expressionString.match(/[+\-*/]/g);   
 
-        console.log("operators", operators);
-        console.log("numbers", numbers);
+        for (let i = 0; i < removeoperators.length; i++) {
+            operators.splice(removeoperators[i], 1);
+            numbers[changenumbers] = -numbers[changenumbers[i]]
+        }
 
-        // Beregn resultatet trinnvis (venstre-til-høyre for + og -)
+        // Beregn resultatet trinnvis, først * og /, deretter + og -
+        for (let i = 0; i < operators?.length; i++) {
+            if (operators[i] === "*") {
+                let firstNumber = numbers[i];
+                let nextNumber = numbers[i + 1];
+                let tempResult = firstNumber * nextNumber;
+                numbers.splice(i, 2, tempResult);
+                operators.splice(i, 1);
+            }
+        }
+        for (let i = 0; i < operators?.length; i++) {
+            if (operators[i] === "/") {
+                let firstNumber = numbers[i];
+                let nextNumber = numbers[i + 1];
+                let tempResult = firstNumber / nextNumber;
+                numbers.splice(i, 2, tempResult);
+                operators.splice(i, 1);
+            }
+        }
         let result = numbers[0];
         for (let i = 0; i < operators?.length; i++) {
             let nextNumber = numbers[i + 1];
             switch (operators[i]) {
                 case "+": result += nextNumber; break;
                 case "-": result -= nextNumber; break;
-                case "*": result *= nextNumber; break;
-                case "/": result /= nextNumber; break;
             }
         }
         inputString = Math.round(result * 100000000) / 100000000;
@@ -76,7 +110,7 @@
                 if(value === ",") {
                     // If comma, dont add new comma
                     if (equalstate === 0) {
-                        let split = (/[+-/×/g/÷/g]/.test(inputString) ? inputString.split(/[\+\-\/×/g\/÷/g]/) : "675");
+                        let split = (/[+-/×/g/÷/g]/.test(inputString) ? inputString.split(/[\+\-\/×/g\/÷/g]/) : "");
                         if (/,/.test(split[split.length-1]) || (operatorsigns.includes(inputString[inputString.length-1]) && value === ",")) {
                             return;
                         }
@@ -90,9 +124,14 @@
                     return;    
                 }
 
+                // Allow minus after operator except for minus
                 if (operatorsigns.includes(inputString[inputString.length-1]) && value === "-") {
-                    inputString = inputString + value;
-                    return;
+                    if (inputString[inputString.length-1] === "-") {
+                        return;
+                    } else {
+                        inputString = inputString + value;
+                        return;                        
+                    }
                 }
 
                 // Alow √ as first character
