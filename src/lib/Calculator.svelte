@@ -64,6 +64,11 @@
             if (operators[i] === "/") {
                 let firstNumber = numbers[i];
                 let nextNumber = numbers[i + 1];
+                if (nextNumber === 0) {
+                    inputString = "Error";
+                    equalstate = 1;
+                    return;
+                }
                 let tempResult = firstNumber / nextNumber;
                 numbers.splice(i, 2, tempResult);
                 operators.splice(i, 1);
@@ -79,6 +84,23 @@
         }
         inputString = Math.round(result * 100000000) / 100000000;
         return result;
+    }
+
+    function trykkTast(event) {
+        const key = event.key;
+        if (/^\d$/.test(key)) {
+            onButtonClick (key, 'number');6
+        } else if (/[+\-*/=]/.test(key)) {
+            onButtonClick (key, 'operator');
+        }else if (key === "," || key === ".") {
+            onButtonClick (",", 'skilletegn');
+        } else if (key === "Enter") {
+            onButtonClick ('=', 'operator');
+        } else if (key === "Escape") {
+            onButtonClick ('C', 'operator');
+        } else if (key === "Backspace") {
+            onButtonClick ('backspace', 'operator');
+        }
     }
 
     function onButtonClick(value) {
@@ -119,9 +141,13 @@
                     }
                 }
                 // Alow minus as first character and after operator
-                if (inputString === "" && value === "-") {
-                    inputString = value;
-                    return;    
+                if (inputString === "" && operatorsigns.includes(value)) {
+                    if (value === "-") {
+                        inputString = inputString + value;
+                        return;
+                    } else {
+                        return;                        
+                    }
                 }
 
                 // Allow minus after operator except for minus
@@ -150,11 +176,18 @@
                     return;
                 }
             }
-            inputString = (equalstate === 0 || operatorsigns.includes(value) ? inputString + value.toString() : value);
-            equalstate = 0;
+            if (inputString === "Error") {
+                inputString = "";
+            } else {
+                inputString = (equalstate === 0 || operatorsigns.includes(value) ? inputString + value.toString() : value);
+                equalstate = 0;
+            }
         }
     }
 </script>
+
+<!-- Tastaturinput -->
+<svelte:window on:keydown={trykkTast} />
 
 <div class="box outer">
     <input class="box inputbox" style="color:black" readonly value={inputString}>	
