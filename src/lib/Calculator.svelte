@@ -105,8 +105,13 @@
     }
 
     function onButtonClick(value) {
-        const operatorsigns = "+-/×/g/÷/g"
+        const operatorsigns = "+-*//×/g/÷/g"
         const numbers = "0123456789"
+        if (value === "*") {
+            value = "×";
+        } else if (value === "/") {
+            value = "÷";
+        }
 
         //C - Reset calculator
         if (value === "C"){
