@@ -241,7 +241,7 @@
 		height: 380px;
 		background-color: darkgray;
 		text-align: center;
-		margin: 0px;
+		margin: 50px;
 	}
 
 	.inputbox {

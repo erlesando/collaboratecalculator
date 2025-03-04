@@ -5,5 +5,3 @@
 
 </script>
 <Calculator />
-<CalculatorErle />
-<CalculatorTerje />
