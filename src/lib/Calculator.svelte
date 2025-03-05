@@ -307,7 +307,7 @@
 		width: 225px;
 		height: 40px;
 		margin-top: 15px;
-        margin-left: 5px;
+        margin-left: auto;
 		font-size:25px;
 		background-color: white;
 		text-align: right;
