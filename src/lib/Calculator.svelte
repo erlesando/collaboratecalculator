@@ -188,7 +188,7 @@
                 }
                 //If equal 
                 if (value === "=") {
-                    if (inputString === "") {
+                    if (inputString === "" || operatorsigns.includes(inputString[inputString.length-1])) {
                         return;
                     } else {
                         calculate(inputString);
