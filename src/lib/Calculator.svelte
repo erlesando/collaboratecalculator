@@ -14,10 +14,27 @@
         expression = expression.replace(/√(\d+(\.\d+)?)/g, (match, number) => {
             return "*" + Math.sqrt(parseFloat(number)); // Erstatt √9 med 3
         });
+
+        // when large numbers
+        if (expression.includes("e+")) {
+            let coeff = expression.split("e+")[0];
+            let exponent = expression.split(/([+\-*/])/)[2];
+            let expnumber = Number(coeff)*10**Number(exponent)
+            let expstring = coeff+"e+"+exponent;
+            expression = expression.replace(expstring, expnumber);
+        }
+        if (expression.includes("e-")) {
+            let coeff = expression.split("e-")[0];
+            let exponent = expression.split(/([+\-*/])/)[2];
+            let expnumber = Number(coeff)*10**Number(exponent)
+            let expstring = coeff+"e-"+exponent;
+            expression = expression.replace(expstring, expnumber);
+        }
+
         function splitExpression(expression) {
             return expression.split(/([+\-*/])/).filter(item => item.trim() !== "");
         }
-        
+
         let expressionarray = splitExpression(expression);
 
         let numberofoperators = 0;
@@ -82,7 +99,11 @@
                 case "-": result -= nextNumber; break;
             }
         }
-        inputString = Math.round(result * 100000000) / 100000000;
+        if (Math.abs(result < 1000000) && Math.abs(result) > 0.000001) {
+            inputString = Math.round(result * 1000000) / 1000000;
+        } else {
+            inputString = result.toExponential(4);
+        }
         inputString = inputString.toString().replace(".", ",");
         return result;
     }
@@ -126,14 +147,8 @@
             }
             equalstate = 0;
         } else {
-            // If number
-            if (numbers.includes(value)) {
-                // If empty, dont add 0;
-                if (inputString === "" && value === 0){
-                    return;
-                }
             // If not number
-            } else {
+            if (!numbers.includes(value)) {
                 // If comma
                 if(value === ",") {
                     // If comma, dont add new comma
@@ -173,15 +188,20 @@
                 }
                 //If equal 
                 if (value === "=") {
-                    calculate(inputString);
-                    equalstate = 1;
-                    return;
+                    if (inputString === "") {
+                        return;
+                    } else {
+                        calculate(inputString);
+                        equalstate = 1;
+                        return;
+                    }
                 }
                 //If last operator is same
                 else if (operatorsigns.includes(inputString[inputString.length-1]) && operatorsigns.includes(value) && value !== "-") {
                     return;
                 }
             }
+            // If Error reset input on next onclick
             if (inputString === "Error") {
                 inputString = "";
             } else {
