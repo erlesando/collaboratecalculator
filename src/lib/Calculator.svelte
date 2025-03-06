@@ -221,7 +221,7 @@
     <div class="buttoncontainer">
         <!-- Rader 3 til 7 med 4 kolonner -->
         <button class="operator" onclick={() => onButtonClick("C")}>C</button>
-        <button class="operator" onclick={() => onButtonClick("backspace")}><img src="images/backspace_25dp.svg"></button>
+        <button aria-label="Backspace" class="operator" onclick={() => onButtonClick("backspace")}><img alt="Backspace" src="images/backspace_25dp.svg"></button>
         <button class="operator" onclick={() => onButtonClick("√")}>√</button>
         <button class="operator" onclick={() => onButtonClick("÷")}>÷</button>
 
