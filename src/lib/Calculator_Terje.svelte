@@ -185,10 +185,8 @@
 </script>
 
 
-<!-- Tastaturinput -->
-<svelte:window onkeydown={trykkTast} />
-
-<div class="grid-container" style="transform: rotate({rotation}deg); display: {gridDisplay};">
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div onkeydown={trykkTast} class="grid-container" style="transform: rotate({rotation}deg); display: {gridDisplay};">
     
     <div class="title">{title}</div>
     <input type="text" class="input-field" readonly value={inputString}>
