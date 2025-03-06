@@ -23,6 +23,7 @@
             let expstring = coeff+"e+"+exponent;
             expression = expression.replace(expstring, expnumber);
         }
+
         if (expression.includes("e-")) {
             let coeff = expression.split("e-")[0];
             let exponent = expression.split(/([+\-*/])/)[2];
@@ -36,7 +37,6 @@
         }
 
         let expressionarray = splitExpression(expression);
-
         let numberofoperators = 0;
         let numberofnumbers = 0;
         let removeoperators = [];
@@ -78,6 +78,7 @@
                 operators.splice(i, 1);
             }
         }
+
         for (let i = 0; i < operators?.length; i++) {
             if (operators[i] === "/") {
                 let firstNumber = numbers[i];
@@ -92,6 +93,7 @@
                 operators.splice(i, 1);
             }
         }
+
         let result = numbers[0];
         for (let i = 0; i < operators?.length; i++) {
             let nextNumber = numbers[i + 1];
@@ -100,12 +102,15 @@
                 case "-": result -= nextNumber; break;
             }
         }
+
         if (Math.abs(result < 1000000) && Math.abs(result) > 0.000001) {
             inputString = Math.round(result * 1000000) / 1000000;
         } else {
             inputString = result.toExponential(4);
         }
+        
         inputString = inputString.toString().replace(".", ",");
+        
         return result;
     }
 
@@ -155,7 +160,7 @@
             if (!numbers.includes(value)) {
 
                 // If comma
-                if(value === ",") {
+                if (value === ",") {
                     // If comma, dont add new comma
                     if (equalstate === 0) {
                         let split = (/[+-/×/g/÷/g]/.test(inputString) ? inputString.split(/[\+\-\/×/g\/÷/g]/) : "");
