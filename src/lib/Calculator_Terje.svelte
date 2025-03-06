@@ -188,7 +188,6 @@
 <div class="grid-container" style="transform: rotate({rotation}deg); display: {gridDisplay};">
     
     <div class="title">{title}</div>
-    <div class="close" onclick={closeCalc}>×</div>
     <input type="text" class="input-field" readonly value={inputString}>
     
     <!-- Rader 3 til 7 med 4 kolonner -->
