@@ -22,15 +22,15 @@
     function trykkTast(event) {
         const key = event.key;
         if (/^\d$/.test(key)) {
-            handleClick (key, 'number');6
+            handleClick(key, 'number');6
         } else if (/[+\-*/=]/.test(key)) {
-            handleClick (key, 'operator');
-        }else if (key === "," || key === ".") {
-                handleClick (",", 'skilletegn');
+            handleClick(key, 'operator');
+        } else if (key === "," || key === ".") {
+            handleClick(",", 'skilletegn');
         } else if (key === "Enter") {
-            handleClick ('=', 'operator');
+            handleClick('=', 'operator');
         } else if (key === "Escape") {
-            handleClick ('C', 'operator');
+            handleClick('C', 'operator');
         }
     }
     
@@ -42,51 +42,51 @@
         xSet = false;
     }
 
-    function setValues (e){
+    function setValues(e) {
         varY = 0;
         inputJS = varX;
         inputNO = inputJS.toString().replace('.', ",");
         varOperator = e;
     }
 
-    function doCalculate (e) {
+    function doCalculate(e) {
         newInput = true;
         
         if (!xSet) {
-            //Første nummer           
+            // Første nummer           
             varX = inputFloat;
             varOperator = e;
             xSet = true;
             
-        } else if (xSet){
-            //Andre nummer
+        } else if (xSet) {
+            // Andre nummer
             varY = inputFloat;
             switch (varOperator){
-                //Addition + 
+                // Addition + 
                 case "+":
                     varX = varX + varY;
                     setValues(e);
                     break;
-                //Subtraction - 
+                // Subtraction - 
                 case "-":
                     varX = varX - varY
                     setValues(e);
                     break;
-                //Multiplication ×
+                // Multiplication ×
                 case "*":
                     varX = varX * varY
                     setValues(e);
                     break;
-                //Devide ÷
+                // Divide ÷
                 case "/":
                     if (varY === 0) {
                         inputNO = "Kan ikke dele på 0";
-                    }else{
+                    } else{
                         varX = varX / varY
                         setValues(e);
                     }
                     break;
-                //Equal =
+                // Equal =
                 case "=":
                     setValues(e);
                     xSet = true;
@@ -155,32 +155,35 @@
                 break;
 
             case "operator":
-                //RESET
+                // RESET
                 if (value === "C"){
                     resetInput();
+
                 // x Squared
-                }else if (value === "x2") {
+                } else if (value === "x2") {
                     inputJS = inputJS ** 2;
                     varX = inputJS;
                     inputNO = inputJS.toString().replace('.', ",");
                     newInput = true;
                     
                 // square root
-                }else if (value === "rot") {
+                } else if (value === "rot") {
                     inputJS = Math.sqrt(inputJS);
                     varX = inputJS;
                     inputNO = inputJS.toString().replace('.', ",");
                     newInput = true;
+
                 } else {
                     // Binary operations
                     doCalculate(value);
-                 }
+                }
 
             default:
             break;
         }
     }
 </script>
+
 
 <!-- Tastaturinput -->
 <svelte:window onkeydown={trykkTast} />
@@ -218,88 +221,70 @@
 
 
 <style>
-
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
     
     .grid-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: auto auto repeat(5, 1fr);
-            gap: 3px;
-            width: 300px;
-            margin: auto;
-            text-align: center;
-            background:#f6f6f6;
-            padding:10px;
-            padding-top:16px;
-            padding-bottom:16px;
-            border-radius:8px;
-            font-family:roboto;
-            caret-color:transparent;
-            border:solid 1px rgb(212, 212, 212);  
-            transition: transform 0.3s ease; 
-          }
-        .title {
-            grid-column: span 3;
-            font-size: 16px;
-            text-align:left;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: auto auto repeat(5, 1fr);
+        gap: 3px;
+        width: 300px;
+        margin: auto;
+        text-align: center;
+        background:#f6f6f6;
+        padding:10px;
+        padding-top:16px;
+        padding-bottom:16px;
+        border-radius:8px;
+        font-family:roboto;
+        caret-color:transparent;
+        border:solid 1px rgb(212, 212, 212);  
+        transition: transform 0.3s ease; 
         }
+    .title {
+        grid-column: span 3;
+        font-size: 16px;
+        text-align:left;
+    }
 
-        .close {
-            text-align:right;
-            font-size:40px;
-            padding:0;
-            margin-top:-15px;
-        }
+    .input-field {
+        grid-column: span 4;
+        padding: 10px;
+        font-size: 28px;
+        text-align: right;
+        background:transparent;
+        border:0;
+    }
+    .button {
+        padding: 15px;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        background:gray;
+        border-radius:4px;
+        border:solid 1px rgb(212, 212, 212);  
+        
+    }
+    .zero {
+        grid-column: span 2;
+    }
 
-        .close:hover {
-            color:red;
-            cursor:default;
-            
-        }
-        .input-field {
-            grid-column: span 4;
-            padding: 10px;
-            font-size: 28px;
-            text-align: right;
-            background:transparent;
-            border:0;
-        }
-        .button {
-            padding: 15px;
-            border: none;
-            font-size: 22px;
-            cursor: pointer;
-            background:gray;
-            border-radius:4px;
-            border:solid 1px rgb(212, 212, 212);  
-            
-        }
-        .zero {
-            grid-column: span 2;
-        }
+    .operator {
+        font-size:20px;
+        background:#eaeaea;
+    }
 
-        .operator {
-            font-size:20px;
-            background:#eaeaea;
-        }
+    .operator sup {
+        font-size: 10px;
+    }
 
-        .operator sup {
-            font-size: 10px;
-        }
-
-        #equal {
-            background-color: rgb(49, 49, 49);
-            color:white;
-        }
-
-        .number{
-            font-size:20px;
-            background:rgb(255, 255, 255);
-        }
-        .button:hover {
-            background-color: rgb(209, 209, 209);
-        }
+    .number{
+        font-size:20px;
+        background:rgb(255, 255, 255);
+    }
+    .button:hover {
+        background-color: rgb(209, 209, 209);
+    }
     
 </style>
 

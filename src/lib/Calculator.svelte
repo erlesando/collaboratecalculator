@@ -57,6 +57,7 @@
                     changenumbers.push(numberofnumbers);
             }
         }
+
         // Get numbers and operators
         let expressionString = expressionarray.join("");
         let numbers = expressionString.match(/\d+(\.\d+)?/g).map(Number);
@@ -111,17 +112,17 @@
     function trykkTast(event) {
         const key = event.key;
         if (/^\d$/.test(key)) {
-            onButtonClick (key, 'number');6
+            onButtonClick(key, 'number');6
         } else if (/[+\-*/=]/.test(key)) {
-            onButtonClick (key, 'operator');
-        }else if (key === "," || key === ".") {
-            onButtonClick (",", 'skilletegn');
+            onButtonClick(key, 'operator');
+        } else if (key === "," || key === ".") {
+            onButtonClick(",", 'skilletegn');
         } else if (key === "Enter") {
-            onButtonClick ('=', 'operator');
+            onButtonClick('=', 'operator');
         } else if (key === "Escape") {
-            onButtonClick ('C', 'operator');
+            onButtonClick('C', 'operator');
         } else if (key === "Backspace") {
-            onButtonClick ('backspace', 'operator');
+            onButtonClick('backspace', 'operator');
         }
     }
 
@@ -134,21 +135,25 @@
             value = "÷";
         }
 
-        //C - Reset calculator
+        //  - Reset calculator
         if (value === "C"){
             inputString = "";
             equalstate = 0;
+
         // Backspace, remove last character
-        } else if (value === "backspace"){
+        } else if (value === "backspace") {
             if (inputString.length > 0){
                 inputString = inputString.slice(0,-1);
             } else {
                 inputString = "";
             }
             equalstate = 0;
+
         } else {
+
             // If not number
             if (!numbers.includes(value)) {
+
                 // If comma
                 if(value === ",") {
                     // If comma, dont add new comma
@@ -161,6 +166,7 @@
                         return;
                     }
                 }
+
                 // Alow minus as first character and after operator
                 if (inputString === "" && operatorsigns.includes(value)) {
                     if (value === "-") {
@@ -186,7 +192,8 @@
                     inputString = value;
                     return;
                 }
-                //If equal 
+
+                // f equal 
                 if (value === "=") {
                     if (inputString === "" || operatorsigns.includes(inputString[inputString.length-1])) {
                         return;
@@ -195,12 +202,12 @@
                         equalstate = 1;
                         return;
                     }
-                }
-                //If last operator is same
-                else if (operatorsigns.includes(inputString[inputString.length-1]) && operatorsigns.includes(value) && value !== "-") {
+                } else if (operatorsigns.includes(inputString[inputString.length-1]) && operatorsigns.includes(value) && value !== "-") {
+                    // f last operator is same
                     return;
                 }
             }
+
             // If Error reset input on next onclick
             if (inputString === "Error") {
                 inputString = "";
@@ -211,6 +218,7 @@
         }
     }
 </script>
+
 
 <!-- Tastaturinput -->
 <svelte:window onkeydown={trykkTast} />
@@ -246,8 +254,11 @@
     </div>
 
 </div>
+
+
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=backspace');
+
     .buttoncontainer {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -258,21 +269,22 @@
         margin:auto;
         margin-top:10px;
     }
+
 	.box {
 		border: 2px solid black;
 		border-radius: 0.5em;
 	}
 
-    .operator{
+    .operator {
         font-size:20px;
         background:lightgray;
     }
     
-    .operator:hover{
+    .operator:hover {
         background:rgb(173, 173, 173);
     }
 
-    .number{
+    .number {
         font-size:20px;
         background:#f0f0f0;
     }
