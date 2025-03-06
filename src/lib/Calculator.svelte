@@ -1,7 +1,7 @@
 <script>
 	let equalstate = $state(0);
-    let inputString = $state("");
-    let inputFloat = $state(0);
+    let input_string = $state("");
+    let input_float = $state(0);
 
     function calculate(expression) {
         const operatorsigns = "+-*/"
@@ -12,7 +12,7 @@
 
         // Replace √
         expression = expression.replace(/√(\d+(\.\d+)?)/g, (match, number) => {
-            return "*" + Math.sqrt(parseFloat(number)); // Erstatt √9 med 3
+            return "*" + Math.sqrt(parse_float(number)); // Erstatt √9 med 3
         });
 
         // when large numbers
@@ -32,11 +32,11 @@
             expression = expression.replace(expstring, expnumber);
         }
 
-        function splitExpression(expression) {
+        function split_expression(expression) {
             return expression.split(/([+\-*/])/).filter(item => item.trim() !== "");
         }
 
-        let expressionarray = splitExpression(expression);
+        let expressionarray = split_expression(expression);
         let numberofoperators = 0;
         let numberofnumbers = 0;
         let removeoperators = [];
@@ -59,9 +59,9 @@
         }
 
         // Get numbers and operators
-        let expressionString = expressionarray.join("");
-        let numbers = expressionString.match(/\d+(\.\d+)?/g).map(Number);
-        let operators = expressionString.match(/[+\-*/]/g);   
+        let expression_string = expressionarray.join("");
+        let numbers = expression_string.match(/\d+(\.\d+)?/g).map(Number);
+        let operators = expression_string.match(/[+\-*/]/g);   
 
         for (let i = 0; i < removeoperators.length; i++) {
             operators.splice(removeoperators[i], 1);
@@ -71,67 +71,67 @@
         // Beregn resultatet trinnvis, først * og /, deretter + og -
         for (let i = 0; i < operators?.length; i++) {
             if (operators[i] === "*") {
-                let firstNumber = numbers[i];
-                let nextNumber = numbers[i + 1];
-                let tempResult = firstNumber * nextNumber;
-                numbers.splice(i, 2, tempResult);
+                let first_number = numbers[i];
+                let next_number = numbers[i + 1];
+                let temp_result = first_number * next_number;
+                numbers.splice(i, 2, temp_result);
                 operators.splice(i, 1);
             }
         }
 
         for (let i = 0; i < operators?.length; i++) {
             if (operators[i] === "/") {
-                let firstNumber = numbers[i];
-                let nextNumber = numbers[i + 1];
-                if (nextNumber === 0) {
-                    inputString = "Error";
+                let first_number = numbers[i];
+                let next_number = numbers[i + 1];
+                if (next_number === 0) {
+                    input_string = "Error";
                     equalstate = 1;
                     return;
                 }
-                let tempResult = firstNumber / nextNumber;
-                numbers.splice(i, 2, tempResult);
+                let temp_result = first_number / next_number;
+                numbers.splice(i, 2, temp_result);
                 operators.splice(i, 1);
             }
         }
 
         let result = numbers[0];
         for (let i = 0; i < operators?.length; i++) {
-            let nextNumber = numbers[i + 1];
+            let next_number = numbers[i + 1];
             switch (operators[i]) {
-                case "+": result += nextNumber; break;
-                case "-": result -= nextNumber; break;
+                case "+": result += next_number; break;
+                case "-": result -= next_number; break;
             }
         }
 
         if (Math.abs(result < 1000000) && Math.abs(result) > 0.000001) {
-            inputString = Math.round(result * 1000000) / 1000000;
+            input_string = Math.round(result * 1000000) / 1000000;
         } else {
-            inputString = result.toExponential(4);
+            input_string = result.to_exponential(4);
         }
         
-        inputString = inputString.toString().replace(".", ",");
+        input_string = input_string.to_string().replace(".", ",");
         
         return result;
     }
 
-    function trykkTast(event) {
+    function trykk_tast(event) {
         const key = event.key;
         if (/^\d$/.test(key)) {
-            onButtonClick(key, 'number');6
+            on_button_click(key, 'number');6
         } else if (/[+\-*/=]/.test(key)) {
-            onButtonClick(key, 'operator');
+            on_button_click(key, 'operator');
         } else if (key === "," || key === ".") {
-            onButtonClick(",", 'skilletegn');
+            on_button_click(",", 'skilletegn');
         } else if (key === "Enter") {
-            onButtonClick('=', 'operator');
+            on_button_click('=', 'operator');
         } else if (key === "Escape") {
-            onButtonClick('C', 'operator');
+            on_button_click('C', 'operator');
         } else if (key === "Backspace") {
-            onButtonClick('backspace', 'operator');
+            on_button_click('backspace', 'operator');
         }
     }
 
-    function onButtonClick(value) {
+    function on_button_click(value) {
         const operatorsigns = "+-*//×/g/÷/g"
         const numbers = "0123456789"
         if (value === "*") {
@@ -142,15 +142,15 @@
 
         //  - Reset calculator
         if (value === "C"){
-            inputString = "";
+            input_string = "";
             equalstate = 0;
 
         // Backspace, remove last character
         } else if (value === "backspace") {
-            if (inputString.length > 0){
-                inputString = inputString.slice(0,-1);
+            if (input_string.length > 0){
+                input_string = input_string.slice(0,-1);
             } else {
-                inputString = "";
+                input_string = "";
             }
             equalstate = 0;
 
@@ -163,8 +163,8 @@
                 if (value === ",") {
                     // If comma, dont add new comma
                     if (equalstate === 0) {
-                        let split = (/[+-/×/g/÷/g]/.test(inputString) ? inputString.split(/[\+\-\/×/g\/÷/g]/) : "");
-                        if (/,/.test(split[split.length-1]) || (operatorsigns.includes(inputString[inputString.length-1]) && value === ",")) {
+                        let split = (/[+-/×/g/÷/g]/.test(input_string) ? input_string.split(/[\+\-\/×/g\/÷/g]/) : "");
+                        if (/,/.test(split[split.length-1]) || (operatorsigns.includes(input_string[input_string.length-1]) && value === ",")) {
                             return;
                         }
                     } else {
@@ -173,9 +173,9 @@
                 }
 
                 // Alow minus as first character and after operator
-                if (inputString === "" && operatorsigns.includes(value)) {
+                if (input_string === "" && operatorsigns.includes(value)) {
                     if (value === "-") {
-                        inputString = inputString + value;
+                        input_string = input_string + value;
                         return;
                     } else {
                         return;                        
@@ -183,41 +183,41 @@
                 }
 
                 // Allow minus after operator except for minus
-                if (operatorsigns.includes(inputString[inputString.length-1]) && value === "-") {
-                    if (inputString[inputString.length-1] === "-") {
+                if (operatorsigns.includes(input_string[input_string.length-1]) && value === "-") {
+                    if (input_string[input_string.length-1] === "-") {
                         return;
                     } else {
-                        inputString = inputString + value;
+                        input_string = input_string + value;
                         return;                        
                     }
                 }
 
                 // Alow √ as first character
-                if (inputString === "" && value === "√") {
-                    inputString = value;
+                if (input_string === "" && value === "√") {
+                    input_string = value;
                     return;
                 }
 
                 // f equal 
                 if (value === "=") {
-                    if (inputString === "" || operatorsigns.includes(inputString[inputString.length-1])) {
+                    if (input_string === "" || operatorsigns.includes(input_string[input_string.length-1])) {
                         return;
                     } else {
-                        calculate(inputString);
+                        calculate(input_string);
                         equalstate = 1;
                         return;
                     }
-                } else if (operatorsigns.includes(inputString[inputString.length-1]) && operatorsigns.includes(value) && value !== "-") {
+                } else if (operatorsigns.includes(input_string[input_string.length-1]) && operatorsigns.includes(value) && value !== "-") {
                     // f last operator is same
                     return;
                 }
             }
 
             // If Error reset input on next onclick
-            if (inputString === "Error") {
-                inputString = "";
+            if (input_string === "Error") {
+                input_string = "";
             } else {
-                inputString = (equalstate === 0 || operatorsigns.includes(value) ? inputString + value.toString() : value);
+                input_string = (equalstate === 0 || operatorsigns.includes(value) ? input_string + value.to_string() : value);
                 equalstate = 0;
             }
         }
@@ -226,36 +226,36 @@
 
 
 <!-- Tastaturinput -->
-<svelte:window onkeydown={trykkTast} />
+<svelte:window onkeydown={trykk_tast} />
 
 <div class="box outer">
-    <input class="box inputbox" style="color:black" readonly value={inputString}>	
+    <input class="box inputbox" style="color:black" readonly value={input_string}>	
     
     <div class="buttoncontainer">
         <!-- Rader 3 til 7 med 4 kolonner -->
-        <button class="operator" onclick={() => onButtonClick("C")}>C</button>
-        <button aria-label="Backspace" class="operator" onclick={() => onButtonClick("backspace")}><img alt="Backspace" src="images/backspace_25dp.svg"></button>
-        <button class="operator" onclick={() => onButtonClick("√")}>√</button>
-        <button class="operator" onclick={() => onButtonClick("÷")}>÷</button>
+        <button class="operator" onclick={() => on_button_click("C")}>C</button>
+        <button aria-label="Backspace" class="operator" onclick={() => on_button_click("backspace")}><img alt="Backspace" src="images/backspace_25dp.svg"></button>
+        <button class="operator" onclick={() => on_button_click("√")}>√</button>
+        <button class="operator" onclick={() => on_button_click("÷")}>÷</button>
 
-        <button class="number" onclick={() => onButtonClick(7)}>7</button>
-        <button class="number" onclick={() => onButtonClick(8)}>8</button>
-        <button class="number" onclick={() => onButtonClick(9)}>9</button>
-        <button class="operator" onclick={() => onButtonClick("×")}>×</button>
+        <button class="number" onclick={() => on_button_click(7)}>7</button>
+        <button class="number" onclick={() => on_button_click(8)}>8</button>
+        <button class="number" onclick={() => on_button_click(9)}>9</button>
+        <button class="operator" onclick={() => on_button_click("×")}>×</button>
         
-        <button class="number" onclick={() => onButtonClick(4)}>4</button>
-        <button class="number" onclick={() => onButtonClick(5)}>5</button>
-        <button class="number" onclick={() => onButtonClick(6)}>6</button>
-        <button class="operator" onclick={() => onButtonClick("-")}>-</button>
+        <button class="number" onclick={() => on_button_click(4)}>4</button>
+        <button class="number" onclick={() => on_button_click(5)}>5</button>
+        <button class="number" onclick={() => on_button_click(6)}>6</button>
+        <button class="operator" onclick={() => on_button_click("-")}>-</button>
         
-        <button class="number" onclick={() => onButtonClick(1)}>1</button>
-        <button class="number" onclick={() => onButtonClick(2)}>2</button>
-        <button class="number" onclick={() => onButtonClick(3)}>3</button>
-        <button class="operator" onclick={() => onButtonClick("+")}>+</button>
+        <button class="number" onclick={() => on_button_click(1)}>1</button>
+        <button class="number" onclick={() => on_button_click(2)}>2</button>
+        <button class="number" onclick={() => on_button_click(3)}>3</button>
+        <button class="operator" onclick={() => on_button_click("+")}>+</button>
         
-        <button class="number zero" onclick={() => onButtonClick(0)}>0</button>
-        <button class="number" onclick={() => onButtonClick(",")}>,</button>
-        <button class="equal" onclick={() => onButtonClick("=")}>=</button>        
+        <button class="number zero" onclick={() => on_button_click(0)}>0</button>
+        <button class="number" onclick={() => on_button_click(",")}>,</button>
+        <button class="equal" onclick={() => on_button_click("=")}>=</button>        
     </div>
 
 </div>
