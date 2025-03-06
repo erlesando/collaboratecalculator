@@ -97,12 +97,6 @@
         } 
     }
 
-    const sunnySide = () => {
-        if (inputNO === "58008" || inputNO === "7734") {
-            rotation +=180;
-        }
-    };
-
     function handleClick(value, type) {
 
         switch (type) {
@@ -193,7 +187,7 @@
 
 <div class="grid-container" style="transform: rotate({rotation}deg); display: {gridDisplay};">
     
-    <div class="title" onclick={sunnySide}>{title}</div>
+    <div class="title">{title}</div>
     <div class="close" onclick={closeCalc}>×</div>
     <input type="text" class="input-field" readonly value={inputString}>
     
