@@ -12,7 +12,7 @@
 
         // Replace √
         expression = expression.replace(/√(\d+(\.\d+)?)/g, (match, number) => {
-            return "*" + Math.sqrt(parse_float(number)); // Erstatt √9 med 3
+            return "*" + Math.sqrt(parseFloat(number)); // Erstatt √9 med 3
         });
 
         // when large numbers
@@ -49,9 +49,11 @@
             } else {
                 numberofnumbers++;
             }
+
             if ((operatorsigns.includes(expressionarray[i-1]) && expressionarray[i] === "*") || (expressionarray[0] === "*" && i === 0)) {
                 expressionarray.splice(i, 1);
             }
+            
             if ((operatorsigns.includes(expressionarray[i-1]) && expressionarray[i] === "-") || (expressionarray[0] === "-" && i === 0)) {
                     removeoperators.push(numberofoperators-1);
                     changenumbers.push(numberofnumbers);
@@ -106,18 +108,18 @@
         if (Math.abs(result < 1000000) && Math.abs(result) > 0.000001) {
             input_string = Math.round(result * 1000000) / 1000000;
         } else {
-            input_string = result.to_exponential(4);
+            input_string = result.toExponential(4);
         }
         
-        input_string = input_string.to_string().replace(".", ",");
+        input_string = input_string.toString().replace(".", ",");
         
         return result;
     }
 
-    function trykk_tast(event) {
+    function handle_keypress(event) {
         const key = event.key;
         if (/^\d$/.test(key)) {
-            on_button_click(key, 'number');6
+            on_button_click(key, 'number');
         } else if (/[+\-*/=]/.test(key)) {
             on_button_click(key, 'operator');
         } else if (key === "," || key === ".") {
@@ -125,9 +127,22 @@
         } else if (key === "Enter") {
             on_button_click('=', 'operator');
         } else if (key === "Escape") {
-            on_button_click('C', 'operator');
+            reset_calculator();
         } else if (key === "Backspace") {
-            on_button_click('backspace', 'operator');
+            backspace();
+        }
+    }
+
+    const reset_calculator = () => {
+        input_string = "";
+        equalstate = 0;
+    }
+
+    const backspace = () => {
+        if (input_string.length > 0){
+            input_string = input_string.slice(0, -1);
+        } else {
+            input_string = "";
         }
     }
 
@@ -140,101 +155,85 @@
             value = "÷";
         }
 
-        //  - Reset calculator
-        if (value === "C"){
+        
+        // If not number
+        if (!numbers.includes(value)) {
+
+            // If comma
+            if (value === ",") {
+                // If comma, dont add new comma
+                if (equalstate === 0) {
+                    let split = (/[+-/×/g/÷/g]/.test(input_string) ? input_string.split(/[\+\-\/×/g\/÷/g]/) : "");
+                    if (/,/.test(split[split.length-1]) || (operatorsigns.includes(input_string[input_string.length-1]) && value === ",")) {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
+
+            // Alow minus as first character and after operator
+            if (input_string === "" && operatorsigns.includes(value)) {
+                if (value === "-") {
+                    input_string = input_string + value;
+                    return;
+                } else {
+                    return;                        
+                }
+            }
+
+            // Allow minus after operator except for minus
+            if (operatorsigns.includes(input_string[input_string.length-1]) && value === "-") {
+                if (input_string[input_string.length-1] === "-") {
+                    return;
+                } else {
+                    input_string = input_string + value;
+                    return;                        
+                }
+            }
+
+            // Alow √ as first character
+            if (input_string === "" && value === "√") {
+                input_string = value;
+                return;
+            }
+
+            // f equal 
+            if (value === "=") {
+                if (input_string === "" || operatorsigns.includes(input_string[input_string.length-1])) {
+                    return;
+                } else {
+                    calculate(input_string);
+                    equalstate = 1;
+                    return;
+                }
+            } else if (operatorsigns.includes(input_string[input_string.length-1]) && operatorsigns.includes(value) && value !== "-") {
+                // f last operator is same
+                return;
+            }
+        }
+
+        // If Error reset input on next onclick
+        if (input_string === "Error") {
             input_string = "";
-            equalstate = 0;
-
-        // Backspace, remove last character
-        } else if (value === "backspace") {
-            if (input_string.length > 0){
-                input_string = input_string.slice(0,-1);
-            } else {
-                input_string = "";
-            }
-            equalstate = 0;
-
         } else {
-
-            // If not number
-            if (!numbers.includes(value)) {
-
-                // If comma
-                if (value === ",") {
-                    // If comma, dont add new comma
-                    if (equalstate === 0) {
-                        let split = (/[+-/×/g/÷/g]/.test(input_string) ? input_string.split(/[\+\-\/×/g\/÷/g]/) : "");
-                        if (/,/.test(split[split.length-1]) || (operatorsigns.includes(input_string[input_string.length-1]) && value === ",")) {
-                            return;
-                        }
-                    } else {
-                        return;
-                    }
-                }
-
-                // Alow minus as first character and after operator
-                if (input_string === "" && operatorsigns.includes(value)) {
-                    if (value === "-") {
-                        input_string = input_string + value;
-                        return;
-                    } else {
-                        return;                        
-                    }
-                }
-
-                // Allow minus after operator except for minus
-                if (operatorsigns.includes(input_string[input_string.length-1]) && value === "-") {
-                    if (input_string[input_string.length-1] === "-") {
-                        return;
-                    } else {
-                        input_string = input_string + value;
-                        return;                        
-                    }
-                }
-
-                // Alow √ as first character
-                if (input_string === "" && value === "√") {
-                    input_string = value;
-                    return;
-                }
-
-                // f equal 
-                if (value === "=") {
-                    if (input_string === "" || operatorsigns.includes(input_string[input_string.length-1])) {
-                        return;
-                    } else {
-                        calculate(input_string);
-                        equalstate = 1;
-                        return;
-                    }
-                } else if (operatorsigns.includes(input_string[input_string.length-1]) && operatorsigns.includes(value) && value !== "-") {
-                    // f last operator is same
-                    return;
-                }
-            }
-
-            // If Error reset input on next onclick
-            if (input_string === "Error") {
-                input_string = "";
-            } else {
-                input_string = (equalstate === 0 || operatorsigns.includes(value) ? input_string + value.to_string() : value);
-                equalstate = 0;
-            }
+            input_string = (equalstate === 0 || operatorsigns.includes(value) ? input_string + value.toString() : value);
+            equalstate = 0;
         }
     }
 </script>
 
 
 <!-- Tastaturinput -->
-<svelte:window onkeydown={trykk_tast} />
+<svelte:window onkeydown={handle_keypress} />
 
 <div class="box outer">
     <input class="box inputbox" style="color:black" readonly value={input_string}>	
     
     <div class="buttoncontainer">
         <!-- Rader 3 til 7 med 4 kolonner -->
-        <button class="operator" onclick={() => on_button_click("C")}>C</button>
-        <button aria-label="Backspace" class="operator" onclick={() => on_button_click("backspace")}><img alt="Backspace" src="images/backspace_25dp.svg"></button>
+        <button class="operator" onclick={reset_calculator}>C</button>
+        <button aria-label="Backspace" class="operator" onclick={backspace}><img alt="Backspace" src="images/backspace_25dp.svg"></button>
         <button class="operator" onclick={() => on_button_click("√")}>√</button>
         <button class="operator" onclick={() => on_button_click("÷")}>÷</button>
 
