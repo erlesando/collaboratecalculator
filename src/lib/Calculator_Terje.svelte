@@ -189,37 +189,38 @@
 </script>
 
 <!-- Tastaturinput -->
-<svelte:window on:keydown={trykkTast} />
+<svelte:window onkeydown={trykkTast} />
 
 <div class="grid-container" style="transform: rotate({rotation}deg); display: {gridDisplay};">
-    <div class="title" on:click={sunnySide}>{title}</div>
-    <div class="close" on:click={closeCalc}>×</div>
+    
+    <div class="title" onclick={sunnySide}>{title}</div>
+    <div class="close" onclick={closeCalc}>×</div>
     <input type="text" class="input-field" readonly value={inputString}>
     
     <!-- Rader 3 til 7 med 4 kolonner -->
-    <button class="button operator" on:click={() => handleClick("C", "operator")}>C</button>
-    <button class="button operator" on:click={() => handleClick("rot", "operator")}>&radic;</button>
-    <button class="button operator" on:click={() => handleClick("x2", "operator")}>x<sup>2</sup></button>
-    <button class="button operator" on:click={() => handleClick("/", "operator")}>&divide;</button>
+    <button class="button operator" onclick={() => handleClick("C", "operator")}>C</button>
+    <button class="button operator" onclick={() => handleClick("rot", "operator")}>&radic;</button>
+    <button class="button operator" onclick={() => handleClick("x2", "operator")}>x<sup>2</sup></button>
+    <button class="button operator" onclick={() => handleClick("/", "operator")}>&divide;</button>
 
-    <button class="button number" on:click={() => handleClick("7", "number")}>7</button>
-    <button class="button number" on:click={() => handleClick("8", "number")}>8</button>
-    <button class="button number"  on:click={() => handleClick("9", "number")}>9</button>
-    <button class="button operator" on:click={() => handleClick("*", "operator")}>&times;</button>
+    <button class="button number" onclick={() => handleClick("7", "number")}>7</button>
+    <button class="button number" onclick={() => handleClick("8", "number")}>8</button>
+    <button class="button number"  onclick={() => handleClick("9", "number")}>9</button>
+    <button class="button operator" onclick={() => handleClick("*", "operator")}>&times;</button>
     
-    <button class="button number" on:click={() => handleClick("4", "number")}>4</button>
-    <button class="button number" on:click={() => handleClick("5", "number")}>5</button>
-    <button class="button number" on:click={() => handleClick("6", "number")}>6</button>
-    <button class="button operator" on:click={() => handleClick("-", "operator")}>-</button>
+    <button class="button number" onclick={() => handleClick("4", "number")}>4</button>
+    <button class="button number" onclick={() => handleClick("5", "number")}>5</button>
+    <button class="button number" onclick={() => handleClick("6", "number")}>6</button>
+    <button class="button operator" onclick={() => handleClick("-", "operator")}>-</button>
     
-    <button class="button number" on:click={() => handleClick("1", "number")}>1</button>
-    <button class="button number" on:click={() => handleClick("2", "number")}>2</button>
-    <button class="button number" on:click={() => handleClick("3", "number")}>3</button>
-    <button class="button operator" on:click={() => handleClick("+", "operator")}>+</button>
+    <button class="button number" onclick={() => handleClick("1", "number")}>1</button>
+    <button class="button number" onclick={() => handleClick("2", "number")}>2</button>
+    <button class="button number" onclick={() => handleClick("3", "number")}>3</button>
+    <button class="button operator" onclick={() => handleClick("+", "operator")}>+</button>
     
-    <button class="button number zero" on:click={() => handleClick("0", "number")}>0</button>
-    <button class="button number" on:click={() => handleClick(",", "skilletegn")}>,</button>
-    <button class="button operator equal" on:click={() => handleClick("=", "operator")}>=</button>
+    <button class="button number zero" onclick={() => handleClick("0", "number")}>0</button>
+    <button class="button number" onclick={() => handleClick(",", "skilletegn")}>,</button>
+    <button class="button operator equal" onclick={() => handleClick("=", "operator")}>=</button>
 </div>
 
 

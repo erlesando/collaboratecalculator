@@ -213,7 +213,7 @@
 </script>
 
 <!-- Tastaturinput -->
-<svelte:window on:keydown={trykkTast} />
+<svelte:window onkeydown={trykkTast} />
 
 <div class="box outer">
     <input class="box inputbox" style="color:black" readonly value={inputString}>	
