@@ -13,6 +13,7 @@
 			return alert("Not allowed key")
 		}
 	}
+
 	function dotAllowed(str) {
 		let allowed = true;
 		const parts = str.split(".");
@@ -138,9 +139,10 @@
 				}
 				break;
 		}
-	return(displayed)
+		return(displayed)
     }
 </script>
+
 
 <div class="box outer">
 	<input class="box inputbox" style="color:black" bind:value={displayed} onkeydown={appendToDisplay}>	
@@ -148,6 +150,8 @@
 		<button onclick={() => appendToDisplay(button) } style="font-weight: bold" style:background-color={(button === "=" ? 'orange' : 'darkwhite')}>{button}</button>
 	{/each}
 </div>
+
+
 <style>
 	.box {
 		border: 2px solid black;
