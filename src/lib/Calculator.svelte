@@ -193,7 +193,8 @@
         --button-height: 50px;
         --button-width: 50px;
 
-        --border: 2px solid black;
+        --border-color: black;
+        --border: 2px solid var(--border-color);
         --border-radius: 0.5em;
 
         --color-number: #f0f0f0;
@@ -215,6 +216,12 @@
         border: var(--border);
 		border-radius: var(--border-radius);        
     }
+
+    button {
+        border: 1px solid var(--border-color);
+		border-radius: 6px
+	}
+
 
 
 	.inputbox {
@@ -244,20 +251,22 @@
     .operator {
         font-size: var(--font-size);
         background: var(--color-operator);
+
+        &:hover {
+            background:#adadad;
+        }
     }
     
-    .operator:hover {
-        background:#adadad;
-    }
 
     .number {
         font-size: var(--font-size);
         background: var(--color-number);
+
+        &:hover {
+            background:#dbdbdb;
+        }
     }
 
-    .number:hover {
-        background:#dbdbdb;
-    }
 
     .zero {
         grid-column: span 2;
@@ -265,14 +274,12 @@
 
     .equal {
         background: orange;
+
+        &:hover {
+            background: #f1a009;
+        }
     }
-    .equal:hover {
-        background: #f1a009;
-    }        
-	button {
-		border: 1px solid black;
-		border-radius: 6px
-	}
+        
 
 
 
