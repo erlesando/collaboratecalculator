@@ -220,7 +220,12 @@
     button {
         border: 1px solid var(--border-color);
 		border-radius: 6px;
-        background-color: var(--button-background);
+        background-color: var(--button-background);  /* --button-background is defined in the operator, number, and equal classes */
+        font-size: var(--font-size);
+
+        &:hover {
+            background: color-mix(in srgb, var(--button-background), black 4%);
+        }
 	}
 
 	.inputbox {
@@ -247,39 +252,12 @@
         margin-top: 10px;
     }
 
-    .operator {
-        font-size: var(--font-size);
-        --button-background: var(--color-operator);
-
-        &:hover {
-            background: color-mix(in srgb, var(--button-background), black 4%);
-        }
-    }
-    
-
-    .number {
-        font-size: var(--font-size);
-        --button-background: var(--color-number);
-
-        &:hover {
-            background: color-mix(in srgb, var(--button-background), black 4%);
-        }
-    }
-
+    .operator { --button-background: var(--color-operator); }
+    .number { --button-background: var(--color-number); }
+    .equal { --button-background: var(--color-equal); }
 
     .zero {
         grid-column: span 2;
     }
-
-    .equal {
-        --button-background: var(--color-equal);
-
-        &:hover {
-            background: color-mix(in srgb, var(--button-background), black 4%);
-        }
-    }
-        
-
-
 
 </style>
