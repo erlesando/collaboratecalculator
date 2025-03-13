@@ -222,8 +222,6 @@
 		border-radius: 6px
 	}
 
-
-
 	.inputbox {
 		width: 225px;
 		height: 40px;
@@ -253,7 +251,7 @@
         background: var(--color-operator);
 
         &:hover {
-            background:#adadad;
+            background: color-mix(in srgb, var(--color-operator), black 4%);
         }
     }
     
@@ -263,7 +261,7 @@
         background: var(--color-number);
 
         &:hover {
-            background:#dbdbdb;
+            background: color-mix(in srgb, var(--color-number), black 4%);
         }
     }
 
@@ -273,10 +271,10 @@
     }
 
     .equal {
-        background: orange;
+        background: var(--color-equal);
 
         &:hover {
-            background: #f1a009;
+            background: color-mix(in srgb, var(--color-equal), black 4%);
         }
     }
         
