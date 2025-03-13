@@ -146,8 +146,8 @@
 
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="calculator box outer" onkeydown={() => handle_keypress(event)}>
-    <input class="box inputbox" style="color:black" readonly value={input_string}>	
+<div class="bordered calculator" onkeydown={() => handle_keypress(event)}>
+    <input class="bordered inputbox" style="color:black" readonly value={input_string}>	
     
     <div class="button-container">
         <button class="operator" onclick={reset_calculator}>C</button>
@@ -181,34 +181,78 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=backspace');
 
+    /*
+        Variables can be used to store values that can be reused throughout the component.
+        They are declared with two dashes (--) and can be used in the style block.
+
+        It is also useful to define the top-level entity (in this case, the calculator) 
+        at the top of the style block.
+    */
+    .calculator {
+        --font-size: 20px;
+        --button-height: 50px;
+        --button-width: 50px;
+
+        --border: 2px solid black;
+        --border-radius: 0.5em;
+
+        --color-number: #f0f0f0;
+        --color-operator: lightgray;
+        --color-equal: orange;
+
+        width: 250px;
+		height: 380px;
+		background-color: darkgray;
+		text-align: center;
+		margin: 50px;
+    }
+
+    /*
+        Utility classes (classes that add one property to an item) can be very useful
+        when styling components.
+    */
+    .bordered {
+        border: var(--border);
+		border-radius: var(--border-radius);        
+    }
+
+
+	.inputbox {
+		width: 225px;
+		height: 40px;
+		margin-top: 15px;
+        margin-left: auto;
+		font-size: 25px;
+		background-color: white;
+		text-align: right;
+		padding: 5px 5px;
+		/* position: relative; */
+        /* grid-column: span 4;  -- this isn't inside the grid..? */
+	}
+
     .button-container {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(5, 1fr);
         gap: 5px;
-        height:280px;
-        width:90%;
-        margin:auto;
-        margin-top:10px;
+        height: 280px;
+        width: 90%;
+        margin: auto;
+        margin-top: 10px;
     }
 
-	.box {
-		border: 2px solid black;
-		border-radius: 0.5em;
-	}
-
     .operator {
-        font-size:20px;
-        background:lightgray;
+        font-size: var(--font-size);
+        background: var(--color-operator);
     }
     
     .operator:hover {
-        background:rgb(173, 173, 173);
+        background:#adadad;
     }
 
     .number {
-        font-size:20px;
-        background:#f0f0f0;
+        font-size: var(--font-size);
+        background: var(--color-number);
     }
 
     .number:hover {
@@ -223,30 +267,13 @@
         background: orange;
     }
     .equal:hover {
-        background: rgb(241, 160, 9);
+        background: #f1a009;
     }        
 	button {
 		border: 1px solid black;
 		border-radius: 6px
 	}
-	.outer {
-		width: 250px;
-		height: 380px;
-		background-color: darkgray;
-		text-align: center;
-		margin: 50px;
-	}
 
-	.inputbox {
-		width: 225px;
-		height: 40px;
-		margin-top: 15px;
-        margin-left: auto;
-		font-size:25px;
-		background-color: white;
-		text-align: right;
-		padding: 5px 5px;
-		position: relative;
-        grid-column: span 4;
-	}
+
+
 </style>
