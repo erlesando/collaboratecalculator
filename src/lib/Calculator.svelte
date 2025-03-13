@@ -1,7 +1,8 @@
 <script>
-	let equalstate = $state(0);
+    import { calculate } from "./calculate";
+
+	let equalstate = $state(false);
     let input_string = $state("");
-    let input_float = $state(0);
 
     // constants and helper functions...
 
@@ -12,135 +13,18 @@
     const is_number = (value) => numbers.includes(value)
     const lastchar = (value) => value[value.length-1]
 
-    // functionality...
-
-    function calculate(expression) {
-        const operatorsigns = "+-*/"
-
-        // Replace ×, ÷ and comma
-        expression = expression.replace(/×/g, "*").replace(/÷/g, "/");
-        expression = expression.replace(/,/g, ".");
-
-        // Replace √
-        expression = expression.replace(/√(\d+(\.\d+)?)/g, (match, number) => {
-            return "*" + Math.sqrt(parseFloat(number)); // Erstatt √9 med 3
-        });
-
-        // when large numbers
-        if (expression.includes("e+")) {
-            let coeff = expression.split("e+")[0];
-            let exponent = expression.split(/([+\-*/])/)[2];
-            let expnumber = Number(coeff) * 10**Number(exponent)
-            let expstring = coeff + "e+" + exponent;
-            expression = expression.replace(expstring, expnumber);
-        }
-
-        if (expression.includes("e-")) {
-            let coeff = expression.split("e-")[0];
-            let exponent = expression.split(/([+\-*/])/)[2];
-            let expnumber = Number(coeff) * 10**Number(exponent)
-            let expstring = coeff + "e-" + exponent;
-            expression = expression.replace(expstring, expnumber);
-        }
-
-        function split_expression(expression) {
-            return expression.split(/([+\-*/])/).filter(item => item.trim() !== "");
-        }
-
-        let expressionarray = split_expression(expression);
-        let numberofoperators = 0;
-        let numberofnumbers = 0;
-        let removeoperators = [];
-        let changenumbers = [];
-
-        // Fjerning av * foran kvadratrot når flere * er tilstede
-        for (let i = 0; i < expressionarray?.length; i++) {
-            if (is_operator(expressionarray[i])) {
-                numberofoperators++;
-            } else {
-                numberofnumbers++;
-            }
-
-            if ((is_operator(expressionarray[i-1]) && expressionarray[i] === "*") || (expressionarray[0] === "*" && i === 0)) {
-                expressionarray.splice(i, 1);
-            }
-            
-            if ((is_operator(expressionarray[i-1]) && expressionarray[i] === "-") || (expressionarray[0] === "-" && i === 0)) {
-                    removeoperators.push(numberofoperators-1);
-                    changenumbers.push(numberofnumbers);
-            }
-        }
-
-        // Get numbers and operators
-        let expression_string = expressionarray.join("");
-        let numbers = expression_string.match(/\d+(\.\d+)?/g).map(Number);
-        let operators = expression_string.match(/[+\-*/]/g);   
-
-        for (let i = 0; i < removeoperators.length; i++) {
-            operators.splice(removeoperators[i], 1);
-            numbers[changenumbers] = -numbers[changenumbers[i]]
-        }
-
-        // Beregn resultatet trinnvis, først * og /, deretter + og -
-        for (let i = 0; i < operators?.length; i++) {
-            if (operators[i] === "*") {
-                let first_number = numbers[i];
-                let next_number = numbers[i + 1];
-                let temp_result = first_number * next_number;
-                numbers.splice(i, 2, temp_result);
-                operators.splice(i, 1);
-            }
-        }
-
-        for (let i = 0; i < operators?.length; i++) {
-            if (operators[i] === "/") {
-                let first_number = numbers[i];
-                let next_number = numbers[i + 1];
-                if (next_number === 0) {
-                    input_string = "Error";
-                    equalstate = 1;
-                    return;
-                }
-                let temp_result = first_number / next_number;
-                numbers.splice(i, 2, temp_result);
-                operators.splice(i, 1);
-            }
-        }
-
-        let result = numbers[0];
-        for (let i = 0; i < operators?.length; i++) {
-            let next_number = numbers[i + 1];
-            switch (operators[i]) {
-                case "+": result += next_number; break;
-                case "-": result -= next_number; break;
-            }
-        }
-
-        if (Math.abs(result < 1000000) && Math.abs(result) > 0.000001) {
-            input_string = Math.round(result * 1000000) / 1000000;
-        } else {
-            input_string = result.toExponential(4);
-        }
-        
-        input_string = input_string.toString().replace(".", ",");
-        
-        return result;
-    }
-
-    // event handlers...
-
     function handle_keypress(event) {
         const key = event.key;
         if (/^\d$/.test(key)) {
             number_click(key);
         } else if (/[+\-]/.test(key)) {
-            on_button_click(key);
+            operator_click(key);
         } else if (key === "*") {
-            on_button_click("×");
+            operator_click("×");
         } else if (key === "/") {
-            on_button_click("÷");
+            operator_click("÷");
         } else if (key === "," || key === ".") {
-            on_button_click(",");
+            operator_click(",");
         } else if (key === "Enter" || key === "=") {
             calculate_result(input_string);
         } else if (key === "Escape") {
@@ -149,13 +33,14 @@
             backspace();
         }
     }
-    
 
+    // lagt inn i input_handlers
     const reset_calculator = () => {
         input_string = "";
-        equalstate = 0;
+        equalstate = false;
     }
 
+    // lagt inn i input_handlers
     const backspace = () => {
         if (input_string.length > 0){
             input_string = input_string.slice(0, -1);
@@ -164,32 +49,51 @@
         }
     }
 
+    // lagt inn i input_handlers
     const calculate_result = (string) => {
+        
         // if input is empty or last character is operator, return
         if (string === "" || is_operator(lastchar(string))) {
             return;
         } else {
-            calculate(string);
-            equalstate = 1;
+            try {
+                let result = calculate(string)
+
+                if ((Math.abs(result < 1000000) && Math.abs(result) > 0.000001) || result === 0) {
+                    input_string = Math.round(result * 1000000) / 1000000;
+                } else {
+                    input_string = result.toExponential(4);
+                }
+
+                input_string = input_string.toString().replace(".", ",");    
+
+            } catch (e) {
+                input_string = "Error"
+                equalstate = true
+            }
+
+            equalstate = true;
         }
     }
 
+    // lagt inn i input_handlers
     const number_click = (value) => {
         // If Error reset input on next onclick
         if (input_string === "Error") {
             input_string = "";
         } else {
-            input_string = (equalstate === 0 || is_operator(value) ? input_string + value.toString() : value);
-            equalstate = 0;
+            input_string = (!equalstate || is_operator(value) ? input_string + value.toString() : value);
+            equalstate = false;
         }
     }
 
+    // lagt inn i input_handlers
     function operator_click(value) {
         
         // If comma
         if (value === ",") {
             // If comma, dont add new comma
-            if (equalstate === 0) {
+            if (!equalstate) {
                 let split = (/[+-/×/g/÷/g]/.test(input_string) ? input_string.split(/[\+\-\/×/g\/÷/g]/) : "");
                 if (/,/.test(split[split.length-1]) || (is_operator(lastchar(input_string)) && value === ",")) {
                     return;
@@ -226,7 +130,7 @@
         }
 
         if (is_operator(input_string[input_string.length-1]) && is_operator(value) && value !== "-") {
-            // f last operator is same
+            // if last operator is same
             return;
         }
 
@@ -234,15 +138,15 @@
         if (input_string === "Error") {
             input_string = "";
         } else {
-            input_string = (equalstate === 0 || is_operator(value) ? input_string + value.toString() : value);
-            equalstate = 0;
+            input_string = (!equalstate || is_operator(value) ? input_string + value.toString() : value);
+            equalstate = false;
         }
     }
 </script>
 
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="calculator box outer" onkeydown={handle_keypress}>
+<div class="calculator box outer" onkeydown={() => handle_keypress(event)}>
     <input class="box inputbox" style="color:black" readonly value={input_string}>	
     
     <div class="button-container">
