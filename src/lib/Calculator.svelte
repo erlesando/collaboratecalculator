@@ -219,7 +219,8 @@
 
     button {
         border: 1px solid var(--border-color);
-		border-radius: 6px
+		border-radius: 6px;
+        background-color: var(--button-background);
 	}
 
 	.inputbox {
@@ -248,20 +249,20 @@
 
     .operator {
         font-size: var(--font-size);
-        background: var(--color-operator);
+        --button-background: var(--color-operator);
 
         &:hover {
-            background: color-mix(in srgb, var(--color-operator), black 4%);
+            background: color-mix(in srgb, var(--button-background), black 4%);
         }
     }
     
 
     .number {
         font-size: var(--font-size);
-        background: var(--color-number);
+        --button-background: var(--color-number);
 
         &:hover {
-            background: color-mix(in srgb, var(--color-number), black 4%);
+            background: color-mix(in srgb, var(--button-background), black 4%);
         }
     }
 
@@ -271,10 +272,10 @@
     }
 
     .equal {
-        background: var(--color-equal);
+        --button-background: var(--color-equal);
 
         &:hover {
-            background: color-mix(in srgb, var(--color-equal), black 4%);
+            background: color-mix(in srgb, var(--button-background), black 4%);
         }
     }
         
