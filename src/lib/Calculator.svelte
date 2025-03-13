@@ -201,10 +201,17 @@
         --color-operator: lightgray;
         --color-equal: orange;
 
-        width: 250px;
-		height: 380px;
 		background-color: darkgray;
 		text-align: center;
+
+        /* 
+            lots of magic numbers here...
+
+            ("magic number" = "a number that is chosen because it works")
+        
+        */
+        width: 250px;
+		height: 380px; 
 		margin: 50px;
     }
 
@@ -229,14 +236,16 @@
 	}
 
 	.inputbox {
+        /* magic numbers */
 		width: 225px;
 		height: 40px;
 		margin-top: 15px;
         margin-left: auto;
-		font-size: 25px;
+		padding: 5px 5px;
+
+        font-size: 25px;
 		background-color: white;
 		text-align: right;
-		padding: 5px 5px;
 		/* position: relative; */
         /* grid-column: span 4;  -- this isn't inside the grid..? */
 	}
@@ -246,7 +255,7 @@
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(5, 1fr);
         gap: 5px;
-        height: 280px;
+        height: 280px;  /* magic number */
         width: 90%;
         margin: auto;
         margin-top: 10px;
