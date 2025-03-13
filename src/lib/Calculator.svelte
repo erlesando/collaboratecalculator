@@ -189,6 +189,7 @@
         at the top of the style block.
     */
     .calculator {
+        --space: 1rem;   /* general space between elements */
         --font-size: 20px;
         --button-height: 50px;
         --button-width: 50px;
@@ -204,15 +205,8 @@
 		background-color: darkgray;
 		text-align: center;
 
-        /* 
-            lots of magic numbers here...
-
-            ("magic number" = "a number that is chosen because it works")
-        
-        */
-        width: 250px;
-		height: 380px; 
-		margin: 50px;
+        /* space between calculator innards and edge of calculator */
+        padding: var(--space);
     }
 
     /*
@@ -229,6 +223,7 @@
 		border-radius: 6px;
         background-color: var(--button-background);  /* --button-background is defined in the operator, number, and equal classes */
         font-size: var(--font-size);
+        aspect-ratio: 1/1;
 
         &:hover {
             background: color-mix(in srgb, var(--button-background), black 4%);
@@ -236,18 +231,16 @@
 	}
 
 	.inputbox {
-        /* magic numbers */
-		width: 225px;
-		height: 40px;
-		margin-top: 15px;
-        margin-left: auto;
-		padding: 5px 5px;
+        /* padding inside inputbox (make it relative to 1 character ~ 1ch) */
+        padding-block: 1ch;
+        padding-inline: 1ch;
+
+        /* space between inputbox and button-container */
+        margin-bottom: var(--space);
 
         font-size: 25px;
 		background-color: white;
 		text-align: right;
-		/* position: relative; */
-        /* grid-column: span 4;  -- this isn't inside the grid..? */
 	}
 
     .button-container {
@@ -255,10 +248,6 @@
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(5, 1fr);
         gap: 5px;
-        height: 280px;  /* magic number */
-        width: 90%;
-        margin: auto;
-        margin-top: 10px;
     }
 
     .operator { --button-background: var(--color-operator); }
@@ -267,6 +256,8 @@
 
     .zero {
         grid-column: span 2;
+        grid-row: span 1;
+        aspect-ratio: 2.1;  /* magic number */
     }
 
 </style>
