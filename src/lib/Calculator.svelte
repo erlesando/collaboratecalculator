@@ -1,17 +1,12 @@
 <script>
-    import { calculate } from "./calculate";
+    import { calculate } from "./calculate.js";
+    import { is_operator, is_number, lastchar } from "./utils.js";
 
 	let equalstate = $state(false);
     let input_string = $state("");
 
     // constants and helper functions...
 
-    const operatorsigns = "+-*//×/g/÷/g"
-    const numbers = "0123456789"
-
-    const is_operator = (value) => operatorsigns.includes(value)
-    const is_number = (value) => numbers.includes(value)
-    const lastchar = (value) => value[value.length-1]
 
     function handle_keypress(event) {
         const key = event.key;
