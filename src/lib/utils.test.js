@@ -37,5 +37,17 @@ describe("is_operator", () => {
         // 
         expect(is_operator("+")).toBe(true);
     });
+
+    it("should return false if the input is not an operator", () => {
+        expect(is_operator("a")).toBe(false);
+    });
+
+    it("should return false if the input is an empty string", () => {
+        expect(is_operator("")).toBe(false);
+    });
+
+    it("should return false if the input is a number", () => {
+        expect(is_operator("1")).toBe(false);
+    });
 });
 
