@@ -1,17 +1,12 @@
 <script>
-    import { calculate } from "./calculate";
+    import { calculate } from "./calculate.js";
+    import { is_operator, is_number, lastchar } from "./utils.js";
 
 	let equalstate = $state(false);
     let input_string = $state("");
 
     // constants and helper functions...
 
-    const operatorsigns = "+-*//×/g/÷/g"
-    const numbers = "0123456789"
-
-    const is_operator = (value) => operatorsigns.includes(value)
-    const is_number = (value) => numbers.includes(value)
-    const lastchar = (value) => value[value.length-1]
 
     function handle_keypress(event) {
         const key = event.key;
@@ -146,8 +141,8 @@
 
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="calculator box outer" onkeydown={() => handle_keypress(event)}>
-    <input class="box inputbox" style="color:black" readonly value={input_string}>	
+<div class="bordered calculator" onkeydown={() => handle_keypress(event)}>
+    <input class="bordered inputbox" style="color:black" readonly value={input_string}>	
     
     <div class="button-container">
         <button class="operator" onclick={reset_calculator}>C</button>
@@ -181,72 +176,83 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=backspace');
 
+    /*
+        Variables can be used to store values that can be reused throughout the component.
+        They are declared with two dashes (--) and can be used in the style block.
+
+        It is also useful to define the top-level entity (in this case, the calculator) 
+        at the top of the style block.
+    */
+    .calculator {
+        --space: 1rem;   /* general space between elements */
+        --font-size: 20px;
+        --button-height: 50px;
+        --button-width: 50px;
+
+        --border-color: black;
+        --border: 2px solid var(--border-color);
+        --border-radius: 0.5em;
+
+        --color-number: #f0f0f0;
+        --color-operator: lightgray;
+        --color-equal: orange;
+
+		background-color: darkgray;
+		text-align: center;
+
+        /* space between calculator innards and edge of calculator */
+        padding: var(--space);
+    }
+
+    /*
+        Utility classes (classes that add one property to an item) can be very useful
+        when styling components.
+    */
+    .bordered {
+        border: var(--border);
+		border-radius: var(--border-radius);        
+    }
+
+    button {
+        border: 1px solid var(--border-color);
+		border-radius: 6px;
+        background-color: var(--button-background);  /* --button-background is defined in the operator, number, and equal classes */
+        font-size: var(--font-size);
+        aspect-ratio: 1/1;
+
+        &:hover {
+            background: color-mix(in srgb, var(--button-background), black 4%);
+        }
+	}
+
+	.inputbox {
+        /* padding inside inputbox (make it relative to 1 character ~ 1ch) */
+        padding-block: 1ch;
+        padding-inline: 1ch;
+
+        /* space between inputbox and button-container */
+        margin-bottom: var(--space);
+
+        font-size: 25px;
+		background-color: white;
+		text-align: right;
+	}
+
     .button-container {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(5, 1fr);
         gap: 5px;
-        height:280px;
-        width:90%;
-        margin:auto;
-        margin-top:10px;
     }
 
-	.box {
-		border: 2px solid black;
-		border-radius: 0.5em;
-	}
-
-    .operator {
-        font-size:20px;
-        background:lightgray;
-    }
-    
-    .operator:hover {
-        background:rgb(173, 173, 173);
-    }
-
-    .number {
-        font-size:20px;
-        background:#f0f0f0;
-    }
-
-    .number:hover {
-        background:#dbdbdb;
-    }
+    .operator { --button-background: var(--color-operator); }
+    .number { --button-background: var(--color-number); }
+    .equal { --button-background: var(--color-equal); }
 
     .zero {
         grid-column: span 2;
+        grid-row: span 1;
+        aspect-ratio: 2.1;  /* magic number */
     }
 
-    .equal {
-        background: orange;
-    }
-    .equal:hover {
-        background: rgb(241, 160, 9);
-    }        
-	button {
-		border: 1px solid black;
-		border-radius: 6px
-	}
-	.outer {
-		width: 250px;
-		height: 380px;
-		background-color: darkgray;
-		text-align: center;
-		margin: 50px;
-	}
-
-	.inputbox {
-		width: 225px;
-		height: 40px;
-		margin-top: 15px;
-        margin-left: auto;
-		font-size:25px;
-		background-color: white;
-		text-align: right;
-		padding: 5px 5px;
-		position: relative;
-        grid-column: span 4;
-	}
 </style>

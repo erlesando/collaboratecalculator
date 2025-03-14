@@ -1,22 +1,28 @@
 <script>
-    import Calculator from "$lib/Calculator.svelte";
-    import CalculatorErle from "$lib/Calculator_Erle.svelte";
-    import CalculatorTerje from "$lib/Calculator_Terje.svelte";
 
+    function open_calculator() {
+        // FIXME: find correct size for the popup
+        const popup = window.open("/calculator", "Calculator", "popup,width=400,height=500");
+        if (popup) popup.focus();
+    }
 </script>
 
 <div class="container">
-    <Calculator />
-    <CalculatorErle />
-    <CalculatorTerje />
+    <button onclick={open_calculator} class="fs-4">
+        🧮 Kalkulator
+    </button>
 </div>
 
 <style>
     .container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        height: 100vh;
+        width: fit-content;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+    }
+
+    .fs-4 {
+        font-size: 2rem;
     }
 </style>
