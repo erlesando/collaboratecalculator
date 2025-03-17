@@ -29,7 +29,7 @@ export default defineConfig(({mode}) => {
                     summary: false,
                 }],
                 ['junit', {
-                    outputFile: './coverage/junit.xml',
+                    outputFile: './test-report.juni.xml',
                 }],
             ],
         }

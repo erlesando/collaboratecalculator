@@ -38,6 +38,13 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: ${{ env.HOME_REPO }}
 
+      - name: Upload test report to codecov.io
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: test-report.juni.xml
+
   build:
     runs-on: ubuntu-latest
     steps:
