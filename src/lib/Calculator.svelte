@@ -37,7 +37,7 @@
     // lagt inn i input_handlers
     const reset_calculator = () => {
         input_string = "";
-        equalstate = false;
+        equalstate = false; 
     }
 
     // lagt inn i input_handlers
@@ -49,9 +49,9 @@
         }
     }
 
-    // lagt inn i input_handlers
+    // lagt inn i handle_clicks
     const calculate_result = (string) => {
-        
+
         // if input is empty or last character is operator, return
         if (string === "" || is_operator(lastchar(string))) {
             return;
@@ -59,7 +59,7 @@
             try {
                 let result = calculate(string)
 
-                if ((Math.abs(result < 1000000) && Math.abs(result) > 0.000001) || result === 0) {
+                if ((result < 10000000 && result > 0.0000001) || (result > -10000000 && result < -0.0000001) || result === 0) {
                     input_string = Math.round(result * 1000000) / 1000000;
                 } else {
                     input_string = result.toExponential(4);
@@ -72,7 +72,7 @@
                 equalstate = true
             }
 
-            equalstate = true;
+            equalstate = true
         }
     }
 
@@ -109,7 +109,7 @@
                 input_string = input_string + value;
                 return;
             } else {
-                return;                        
+                return;
             }
         }
 

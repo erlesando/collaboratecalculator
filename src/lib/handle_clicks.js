@@ -1,5 +1,6 @@
 import { is_operator, is_number, lastchar } from "./utils.js";
 
+
 // event handlers...
 export function handle_keypress(event) {
     const key = event.key;
@@ -72,8 +73,8 @@ export function operator_click(value) {
     if (input_string === "Error") {
         input_string = "";
     } else {
-        input_string = (equalstate === 0 || is_operator(value) ? input_string + value.toString() : value);
-        equalstate = 0;
+        input_string = (!equalstate || is_operator(value) ? input_string + value.toString() : value);
+        equalstate = false;
     }
 }
 
@@ -82,8 +83,8 @@ export const number_click = (value) => {
     if (input_string === "Error") {
         input_string = "";
     } else {
-        input_string = (equalstate === 0 || is_operator(value) ? input_string + value.toString() : value);
-        equalstate = 0;
+        input_string = (!equalstate || is_operator(value) ? input_string + value.toString() : value);
+        equalstate = false;
     }
 }
 
@@ -100,13 +101,28 @@ export const backspace = () => {
     }
 }
 
-export const calculate_result = (string) => {
+const calculate_result = (string) => {
+        
     // if input is empty or last character is operator, return
     if (string === "" || is_operator(lastchar(string))) {
         return;
     } else {
-        throw new error("calculate result")
-        calculate(string);
-        equalstate = 1;
+        try {
+            let result = calculate(string)
+
+            if ((Math.abs(result < 1000000) && Math.abs(result) > 0.000001) || result === 0) {
+                input_string = Math.round(result * 1000000) / 1000000;
+            } else {
+                input_string = result.toExponential(4);
+            }
+
+            input_string = input_string.toString().replace(".", ",");    
+
+        } catch (e) {
+            input_string = "Error"
+            equalstate = true
+        }
+
+        equalstate = true;
     }
 }
