@@ -5,9 +5,6 @@
 	let equalstate = $state(false);
     let input_string = $state("");
 
-    // constants and helper functions...
-
-
     function handle_keypress(event) {
         const key = event.key;
         if (/^\d$/.test(key)) {
