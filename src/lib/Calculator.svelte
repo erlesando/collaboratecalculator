@@ -74,7 +74,6 @@
     }
 
     function operator_click(value) {
-
         // If comma
         if (value === ",") {
             // If comma, dont add new comma
@@ -114,7 +113,7 @@
             return;
         }
 
-        if (value !== "-" && (is_operator(lastchar(input_string)) || lastchar(input_string) === "√") && is_operator(value) ) {
+        if (value !== "-" && (is_operator(lastchar(input_string.toString())) || lastchar(input_string) === "√") && is_operator(value) ) {
             // if last operator is same
             return;
         }

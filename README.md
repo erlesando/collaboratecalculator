@@ -4,7 +4,7 @@
 
 <img src="./static/images/calculator.png" alt="calculator" width="250px" height="auto">
 
-# Collaborate Calculator
+# Calculator
 
 ## Description
 
@@ -64,6 +64,7 @@ npm run preview
 
 This project was developed by Terje Monsen, Bjørn Pettersen and Erle Sandø.
 
-## License
+<!-- ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+ -->
