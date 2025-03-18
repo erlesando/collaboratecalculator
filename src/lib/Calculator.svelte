@@ -26,13 +26,11 @@
         }
     }
 
-    // lagt inn i input_handlers
     const reset_calculator = () => {
         input_string = "";
         equalstate = false; 
     }
 
-    // lagt inn i input_handlers
     const backspace = () => {
         if (input_string.length > 0){
             input_string = input_string.slice(0, -1);
@@ -41,11 +39,10 @@
         }
     }
 
-    // lagt inn i handle_clicks
     const calculate_result = (string) => {
 
         // if input is empty or last character is operator, return
-        if (string === "" || is_operator(lastchar(string))) {
+        if (string === "" || is_operator(lastchar(string))|| lastchar(string) === "√") {
             return;
         } else {
             try {
@@ -58,36 +55,32 @@
                 }
 
                 input_string = input_string.toString().replace(".", ",");    
-
-            } catch (e) {
-                input_string = "Error"
                 equalstate = true
+            } catch (e) {
+                console.error(e)
+                input_string = "Error"
             }
-
-            equalstate = true
         }
     }
 
-    // lagt inn i input_handlers
     const number_click = (value) => {
         // If Error reset input on next onclick
         if (input_string === "Error") {
-            input_string = "";
+            input_string = value;
         } else {
             input_string = (!equalstate || is_operator(value) ? input_string + value.toString() : value);
             equalstate = false;
         }
     }
 
-    // lagt inn i input_handlers
     function operator_click(value) {
-        
+
         // If comma
         if (value === ",") {
             // If comma, dont add new comma
             if (!equalstate) {
                 let split = (/[+-/×/g/÷/g]/.test(input_string) ? input_string.split(/[\+\-\/×/g\/÷/g]/) : "");
-                if (/,/.test(split[split.length-1]) || (is_operator(lastchar(input_string)) && value === ",")) {
+                if (/,/.test(lastchar(split)) || input_string === "" || (is_operator(lastchar(input_string))) ) {
                     return;
                 }
             } else {
@@ -106,7 +99,7 @@
         }
 
         // Allow minus after operator except for minus
-        if (is_operator(lastchar(input_string)) && value === "-") {
+        if (value === "-" && is_operator(lastchar(input_string))) {
             if (lastchar(input_string) === "-") {
                 return;
             } else {
@@ -121,19 +114,19 @@
             return;
         }
 
-        if (is_operator(input_string[input_string.length-1]) && is_operator(value) && value !== "-") {
+        if (value !== "-" && (is_operator(lastchar(input_string)) || lastchar(input_string) === "√") && is_operator(value) ) {
             // if last operator is same
             return;
         }
 
         // If Error reset input on next onclick
-        if (input_string === "Error") {
+        if (input_string === "Error" || input_string === "NaN") {
             input_string = "";
         } else {
             input_string = (!equalstate || is_operator(value) ? input_string + value.toString() : value);
             equalstate = false;
         }
-    }
+        }
 </script>
 
 
@@ -182,9 +175,7 @@
     */
     .calculator {
         --space: 1rem;   /* general space between elements */
-        --font-size: 20px;
-        --button-height: 50px;
-        --button-width: 50px;
+        --font-size: 25px;
 
         --border-color: black;
         --border: 2px solid var(--border-color);
@@ -196,6 +187,8 @@
 
 		background-color: darkgray;
 		text-align: center;
+        transform: scale(0.8);
+        transform-origin: left;
 
         /* space between calculator innards and edge of calculator */
         padding: var(--space);
@@ -249,7 +242,7 @@
     .zero {
         grid-column: span 2;
         grid-row: span 1;
-        aspect-ratio: 2.1;  /* magic number */
+        aspect-ratio: 2.05;  /* magic number */
     }
 
 </style>

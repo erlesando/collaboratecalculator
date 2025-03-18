@@ -1,22 +1,41 @@
-# sv
+[![codecov](https://codecov.io/gh/erlesando/collaboratecalculator/graph/badge.svg?token=QLCCBMNUSN)](https://codecov.io/gh/erlesando/collaboratecalculator)
+![cicd](https://github.com/erlesando/collaboratecalculator/actions/workflows/ci-cd.yml/badge.svg)
+<a href="https://github.com/erlesando/collaboratecalculator"><img src="docs/github-mark/github-mark.png" width="25" height="25"></a>
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+<img src="./static/images/calculator.png" alt="calculator" width="250px" height="auto">
 
-## Creating a project
+# Collaborate Calculator
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Description
+
+This project is a simple calculator designed for use in various tests and exams. The calculator can perform the following operations:
+- Addition
+- Subtraction
+- Multiplication
+- Division
+- Square root calculation
+
+The calculator can be used both with keys and buttons, providing flexibility in how you interact with it. It respects the order of operations, performing multiplications and divisions before additions and subtractions. If a division by zero is attempted, an error will occur, and you can start a new calculation. It is also possible to clear the screen or use the Backspace key to remove the last number or operation.
+
+## Getting Started
+
+### Prerequisites
+
+To get started with this project, you need to have Node.js and npm installed on your machine.
+
+### Installation
+
+Clone the repository and install the dependencies:
 
 ```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+git clone https://github.com/erlesando/collaboratecalculator.git
+cd collaboratecalculator
+npm install
 ```
 
-## Developing
+### Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+To start a development server:
 
 ```bash
 npm run dev
@@ -25,7 +44,7 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Building
+### Building
 
 To create a production version of your app:
 
@@ -33,7 +52,18 @@ To create a production version of your app:
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+You can preview the production build with:
+
+```bash
+npm run preview
+```
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-"# collaboratecalculator" 
+
+## Authors and Acknowledgements
+
+This project was developed by Terje Monsen, Bjørn Pettersen and Erle Sandø.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

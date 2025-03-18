@@ -1,6 +1,6 @@
 import { is_operator, is_number, lastchar } from "./utils.js";
 
-   // functionality...
+// functionality...
 export function calculate(expression) {
     const operatorsigns = "+-*/"
 
@@ -40,21 +40,34 @@ export function calculate(expression) {
     let removeoperators = [];
     let changenumbers = [];
 
+
+/*     numberofnumbers = expressionarray.filter((expression) => /[0-9+]/g.test(expression)}).length
+    numberofoperators = expressionarray.length - numberofnumbers 
+    console.log('numbers: ', numberofnumbers, 'ops', numberofoperators) */
+
     // Fjerning av * foran kvadratrot når flere * er tilstede
+    if (expressionarray[0] === "*") {
+        expressionarray.splice(0, 1);
+    }
+    if (expressionarray[0] === "-"){
+        removeoperators.push(0)
+        changenumbers.push(0)
+    }
     for (let i = 0; i < expressionarray?.length; i++) {
         if (is_operator(expressionarray[i])) {
             numberofoperators++;
         } else {
             numberofnumbers++;
         }
-
-        if ((is_operator(expressionarray[i-1]) && expressionarray[i] === "*") || (expressionarray[0] === "*" && i === 0)) {
-            expressionarray.splice(i, 1);
-        }
-        
-        if ((is_operator(expressionarray[i-1]) && expressionarray[i] === "-") || (expressionarray[0] === "-" && i === 0)) {
-                removeoperators.push(numberofoperators-1);
-                changenumbers.push(numberofnumbers);
+        if (i > 0) {
+            if ((is_operator(expressionarray[i-1]) && expressionarray[i] === "*")) {
+                expressionarray.splice(i, 1);
+            }
+            
+            if ((is_operator(expressionarray[i-1]) && expressionarray[i] === "-") || (expressionarray[0] === "-" && i === 0)) {
+                    removeoperators.push(numberofoperators-1);
+                    changenumbers.push(numberofnumbers);
+            }              
         }
     }
 
@@ -68,20 +81,17 @@ export function calculate(expression) {
         removeoperators = removeoperators.map(x => x-1)
         numbers[changenumbers[i]] = -numbers[changenumbers[i]]
     }
-
     // Beregn resultatet trinnvis, først * og /, deretter + og -
-    for (let i = 0; i < operators?.length; i++) {
+
+    for (let i = 0; i <= operators?.length; i++) {
         if (operators[i] === "*") {
             let first_number = numbers[i]
             let next_number = numbers[i + 1]
             let temp_result = first_number * next_number
             numbers.splice(i, 2, temp_result)
             operators.splice(i, 1)
-        }
-    }
-
-    for (let i = 0; i < operators?.length; i++) {
-        if (operators[i] === "/") {
+            i = i-1
+        } else if (operators[i] === "/") {
             let first_number = numbers[i];
             let next_number = numbers[i + 1];
             if (next_number === 0) {
@@ -90,6 +100,7 @@ export function calculate(expression) {
             let temp_result = first_number / next_number;
             numbers.splice(i, 2, temp_result);
             operators.splice(i, 1);
+            i = i - 1
         }
     }
 
