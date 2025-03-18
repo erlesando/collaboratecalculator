@@ -54,40 +54,40 @@ describe("is_operator", () => {
 
 describe("is_number", () => {
     it("should return true if the input is a number", () => {
-        expect(is_number("1").tobe(true));
+        expect(is_number("1").toBe(true));
     });
 
     it("should return false if the input is an operator", () => {
-        expect(is_number("+").tobe(true));
+        expect(is_number("+").toBe(true));
     });
 
     it("should return false if the input is an empty string", () => {
-        expect(is_number("").tobe(false));
+        expect(is_number("").toBe(false));
     });
 
     it("should return true if the input is decimal", () => {
-        expect(is_number("1.5").tobe(true));
+        expect(is_number("1.5").toBe(true));
     });
 });
 
 describe("lastchar", () => {
     it("should return the last character in a string", () => {
-        expect(is_number("abcd").tobe("d"));
+        expect(lastchar("abcd").toBe("d"));
     });
 
     it("should return 4", () => {
-        expect(is_number("1234").tobe("4"));
+        expect(lastchar("1234").toBe("4"));
     });
 
     it("should return +", () => {
-        expect(is_number("123+").tobe("+"));
+        expect(lastchar("123+").toBe("+"));
     });
 
     it("should return space", () => {
-        expect(is_number("abc ").tobe(" "));
+        expect(lastchar("abc ").toBe(" "));
     });
 
     it("should return undefined", () => {
-        expect(is_number("").tobe(undefined));
+        expect(lastchar("").toBe(undefined));
     });
 });
