@@ -59,7 +59,7 @@ describe("use negative numbers", () => {
     })
 
     it("should be able to add negative number in expression", () => {
-        expect(calculate("6+-2")).toBe(-4)
+        expect(calculate("6+-2")).toBe(4)
     })
     
     it("should be able to multiply with negative number in expression", () => {
