@@ -24,12 +24,13 @@ export function calculate(expression) {
 
     if (expression.includes("e-")) {
         let coeff = expression.split("e-")[0];
+        console.log("coeff: ", coeff, "length:", coeff.length)
         let exponent = expression.split(/([+\-*/])/)[2];
-        let expnumber = Number(coeff) * 10**Number(exponent)
+        let expnumber = (Number(coeff) / 10**Number(exponent)).toFixed(Number(exponent)+4)
         let expstring = coeff + "e-" + exponent;
         expression = expression.replace(expstring, expnumber);
+        
     }
-
     function split_expression(expression) {
         return expression.split(/([+\-*/])/).filter(item => item.trim() !== "");
     }

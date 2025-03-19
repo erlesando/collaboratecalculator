@@ -39,7 +39,7 @@
         }
     }
 
-    const calculate_result = (string) => {
+    function calculate_result(string) {
 
         // if input is empty or last character is operator, return
         if (string === "" || is_operator(lastchar(string))|| lastchar(string) === "√") {

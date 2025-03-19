@@ -31,11 +31,10 @@ describe("large_and_small_numbers", () => {
         expect(calculate("4,0000e+7*3")).toBe(120000000)
     })
     it("should be able to use exponential numbers when small", () => {
-        expect(calculate("4,0000e-7*3")).toBe(0.00000012)
+        expect(calculate("4,0000e-7*3")).toBe(0.0000012)
     })
 })
 
-// Dont think this will work
 describe("divide by zero", () => {
     it("should throw an Error when dividing by zero", () => {
         expect(() => {
@@ -45,9 +44,14 @@ describe("divide by zero", () => {
 })
 
 describe("use_of_squareroot", () => {
+    it("should remove * when squareroot at start", () => {
+        expect(calculate("√9")).toBe(3)
+    })
+
     it("should remove one * when using *", () => {
         expect(calculate("2*√9")).toBe(6)
     })
+
     it("should add * when not using *", () => {
         expect(calculate("2√9")).toBe(6)
     })
