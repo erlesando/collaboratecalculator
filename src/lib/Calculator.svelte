@@ -1,164 +1,90 @@
 <script>
-    import { calculate } from "./calculate.js";
-    import { is_operator, is_number, lastchar } from "./utils.js";
+    import { 
+        is_operator, 
+        is_number, 
+        lastchar 
+        } from "./utils.js";
+    import { 
+        reset_calculator, 
+        backspace, 
+        number_click, 
+        operator_click, 
+        calculate_result,
+        handle_keypress 
+        } from "./button_clicks.js"
 
 	let equalstate = $state(false);
     let input_string = $state("");
-
-    function handle_keypress(event) {
-        const key = event.key;
-        if (/^\d$/.test(key)) {
-            number_click(key);
-        } else if (/[+\-]/.test(key)) {
-            operator_click(key);
-        } else if (key === "*") {
-            operator_click("×");
-        } else if (key === "/") {
-            operator_click("÷");
-        } else if (key === "," || key === ".") {
-            operator_click(",");
-        } else if (key === "Enter" || key === "=") {
-            calculate_result(input_string);
-        } else if (key === "Escape") {
-            reset_calculator();
-        } else if (key === "Backspace") {
-            backspace();
-        }
-    }
-
-    const reset_calculator = () => {
-        input_string = "";
-        equalstate = false; 
-    }
-
-    const backspace = () => {
-        if (input_string.length > 0){
-            input_string = input_string.slice(0, -1);
-        } else {
-            input_string = "";
-        }
-    }
-
-    function calculate_result(string) {
-
-        // if input is empty or last character is operator, return
-        if (string === "" || is_operator(lastchar(string))|| lastchar(string) === "√") {
-            return;
-        } else {
-            try {
-                let result = calculate(string)
-
-                if ((result < 10000000 && result > 0.000001) || (result > -10000000 && result < -0.000001) || result === 0) {
-                    input_string = Math.round(result * 1000000) / 1000000;
-                } else {
-                    input_string = result.toExponential(4);
-                }
-
-                input_string = input_string.toString().replace(".", ",");    
-                equalstate = true
-            } catch (e) {
-                console.error(e)
-                input_string = "Error"
-            }
-        }
-    }
-
-    const number_click = (value) => {
-        // If Error reset input on next onclick
-        if (input_string === "Error") {
-            input_string = value;
-        } else {
-            input_string = (!equalstate || is_operator(value) ? input_string + value.toString() : value);
-            equalstate = false;
-        }
-    }
-
-    function operator_click(value) {
-        // If comma
-        if (value === ",") {
-            // If comma, dont add new comma
-            if (!equalstate) {
-                let split = (/[+-/×/g/÷/g]/.test(input_string) ? input_string.split(/[\+\-\/×/g\/÷/g]/) : "");
-                if (/,/.test(lastchar(split)) || input_string === "" || (is_operator(lastchar(input_string))) ) {
-                    return;
-                }
-            } else {
-                return;
-            }
-        }
-
-        // Allow minus as first character and after operator
-        if (input_string === "" && is_operator(value)) {
-            if (value === "-") {
-                input_string = input_string + value;
-                return;
-            } else {
-                return;
-            }
-        }
-
-        // Allow minus after operator except for minus
-        if (value === "-" && is_operator(lastchar(input_string))) {
-            if (lastchar(input_string) === "-") {
-                return;
-            } else {
-                input_string = input_string + value;
-                return;                        
-            }
-        }
-
-        // Allow √ as first character
-        if (input_string === "" && value === "√") {
-            input_string = value;
-            return;
-        }
-
-        if (value !== "-" && (is_operator(lastchar(input_string.toString())) || lastchar(input_string) === "√") && is_operator(value) ) {
-            // if last operator is same
-            return;
-        }
-
-        // If Error reset input on next onclick
-        if (input_string === "Error" || input_string === "NaN") {
-            input_string = "";
-        } else {
-            input_string = (!equalstate || is_operator(value) ? input_string + value.toString() : value);
-            equalstate = false;
-        }
-        }
 </script>
 
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="bordered calculator" onkeydown={() => handle_keypress(event)}>
+<div class="bordered calculator" onkeydown={() => ({input_string, equalstate} = handle_keypress(input_string, equalstate, event))}>
     <input class="bordered inputbox" style="color:black" readonly value={input_string}>	
     
     <div class="button-container">
-        <button class="operator" onclick={reset_calculator}>C</button>
-        <button aria-label="Backspace" class="operator" onclick={backspace}><img alt="Backspace" src="images/backspace_25dp.svg"></button>
-        <button class="operator" onclick={() => operator_click("√")}>√</button>
-        <button class="operator" onclick={() => operator_click("÷")}>÷</button>
+        <button class="operator" onclick={() => {
+            ({input_string, equalstate} = reset_calculator(input_string, equalstate))
+            }}>C</button>
+        <button aria-label="Backspace" class="operator" onclick={() => {
+            ({input_string} = backspace(input_string, equalstate))
+            }}><img alt="Backspace" src="images/backspace_25dp.svg"></button>
+        <button class="operator" onclick={() => {
+            ({input_string, equalstate} = operator_click(input_string, equalstate, "√"))
+            }}>√</button>
+        <button class="operator" onclick={() => {
+            ({input_string, equalstate} = operator_click(input_string, equalstate, "÷"))
+            }}>÷</button>
 
-        <button class="number" onclick={() => number_click(7)}>7</button>
-        <button class="number" onclick={() => number_click(8)}>8</button>
-        <button class="number" onclick={() => number_click(9)}>9</button>
-        <button class="operator" onclick={() => operator_click("×")}>×</button>
+        <button class="number" onclick={() => {
+            ({input_string, equalstate} = number_click(input_string, equalstate, 7))
+            }}>7</button>
+        <button class="number" onclick={() => {
+            ({input_string, equalstate} = number_click(input_string, equalstate, 8))
+            }}>8</button>
+        <button class="number" onclick={() => {
+            ({input_string, equalstate} = number_click(input_string, equalstate, 9))
+            }}>9</button>
+        <button class="operator" onclick={() => {
+            ({input_string, equalstate} = operator_click(input_string, equalstate, "×"))
+            }}>×</button>
         
-        <button class="number" onclick={() => number_click(4)}>4</button>
-        <button class="number" onclick={() => number_click(5)}>5</button>
-        <button class="number" onclick={() => number_click(6)}>6</button>
-        <button class="operator" onclick={() => operator_click("-")}>-</button>
+        <button class="number" onclick={() => {
+            ({input_string, equalstate} = number_click(input_string, equalstate, 4))
+            }}>4</button>
+        <button class="number" onclick={() => {
+            ({input_string, equalstate} = number_click(input_string, equalstate, 5))
+            }}>5</button>
+        <button class="number" onclick={() => {
+            ({input_string, equalstate} = number_click(input_string, equalstate, 6))
+            }}>6</button>
+        <button class="operator" onclick={() => {
+            ({input_string, equalstate} = operator_click(input_string, equalstate, "-"))
+            }}>-</button>
         
-        <button class="number" onclick={() => number_click(1)}>1</button>
-        <button class="number" onclick={() => number_click(2)}>2</button>
-        <button class="number" onclick={() => number_click(3)}>3</button>
-        <button class="operator" onclick={() => operator_click("+")}>+</button>
+        <button class="number" onclick={() => {
+            ({input_string, equalstate} = number_click(input_string, equalstate, 1))
+            }}>1</button>
+        <button class="number" onclick={() => {
+            ({input_string, equalstate} = number_click(input_string, equalstate, 2))
+            }}>2</button>
+        <button class="number" onclick={() => {
+            ({input_string, equalstate} = number_click(input_string, equalstate, 3))
+            }}>3</button>
+        <button class="operator" onclick={() => {
+            ({input_string, equalstate} = operator_click(input_string, equalstate, "+"))
+            }}>+</button>
         
-        <button class="number zero" onclick={() => number_click(0)}>0</button>
-        <button class="number" onclick={() => operator_click(",")}>,</button>
-        <button class="equal" onclick={() => calculate_result(input_string)}>=</button>        
+        <button class="number zero" onclick={() => {
+            ({input_string, equalstate} = number_click(input_string, equalstate, 0))
+            }}>0</button>
+        <button class="number" onclick={() => {
+            ({input_string, equalstate} = operator_click(input_string, equalstate, ","))
+            }}>,</button>
+        <button class="equal" onclick={() => {
+            ({input_string, equalstate} = calculate_result(input_string))
+            }}>=</button>        
     </div>
-
 </div>
 
 

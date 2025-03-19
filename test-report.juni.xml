@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="57" failures="0" errors="0" time="0.0365771">
+    <testsuite name="src/lib/button_clicks.test.js" timestamp="2025-03-19T13:22:09.359Z" hostname="ees196" tests="30" failures="0" errors="0" skipped="0" time="0.0240068">
+        <testcase classname="src/lib/button_clicks.test.js" name="reset_calculator &gt; should reset the calculator when C button" time="0.0020834">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="backspace &gt; should delete last char when backspace button, equalstate 0" time="0.0002467">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="backspace &gt; should delete clear input when backspace button, equalstate 1" time="0.0001325">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="backspace &gt; should do nothing when nothing there" time="0.0002225">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="number_click &gt; should replace input_string when Error" time="0.0001834">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="number_click &gt; should replace input_string when equalstate 1" time="0.0001281">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="number_click &gt; should add to input_string when equalstate 0" time="0.0001269">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; should clear input_string when Error" time="0.0003054">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; should add to input_string when equalstate 1" time="0.0002354">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; should add to input_string when equalstate 0" time="0.0002296">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; should be able to start with -" time="0.0002226">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; can add - after an operator (exept after -)" time="0.0002332">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; cannot add - after -" time="0.0002267">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; should be able to start with √" time="0.0002371">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; can add √ after an operator" time="0.0002254">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; if equalstate is true and value is √ replace input with √" time="0.0002127">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; should not be able to start with other operators" time="0.0002173">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; should not be able to add comma to a number with a comma" time="0.0003311">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; should not be able to add comma when equalstate is true" time="0.0002204">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; should not add another operator after an operator (except - and √)" time="0.0002301">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="operator_click &gt; should not add another operator after an operator (except -)" time="0.0002383">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="calculate_result &gt; should do nothing when Error" time="0.0003974">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="calculate_result &gt; should do nothing when NaN" time="0.000409">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="calculate_result &gt; should do nothing when empty" time="0.000243">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="calculate_result &gt; should do nothing when operator lastchar" time="0.000235">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="calculate_result &gt; should return calculated number" time="0.0011122">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="calculate_result &gt; should use , instead of ." time="0.0003187">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="calculate_result &gt; should show exponential when large numbers" time="0.0002772">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="calculate_result &gt; should show exponential when small numbers" time="0.0002572">
+        </testcase>
+        <testcase classname="src/lib/button_clicks.test.js" name="calculate_result &gt; should be thrown error when dividing by zero" time="0.0120662">
+            <system-err>
+Error: divide by zero
+    at calculate [90m(C:\Users\ees\collarboratecalculator\[39msrc\lib\calculate.js:99:23[90m)[39m
+    at calculate_result [90m(C:\Users\ees\collarboratecalculator\[39msrc\lib\button_clicks.js:97:35[90m)[39m
+    at [90mC:\Users\ees\collarboratecalculator\[39msrc\lib\button_clicks.test.js:133:32
+    at [90mfile:///C:/Users/ees/collarboratecalculator/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@3.0.8/node_modules/[4m@vitest[24m/runner/dist/index.js:174:14
+    at [90mfile:///C:/Users/ees/collarboratecalculator/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@3.0.8/node_modules/[4m@vitest[24m/runner/dist/index.js:563:28
+    at [90mfile:///C:/Users/ees/collarboratecalculator/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@3.0.8/node_modules/[4m@vitest[24m/runner/dist/index.js:61:24
+    at new Promise (&lt;anonymous&gt;)
+    at runWithTimeout [90m(file:///C:/Users/ees/collarboratecalculator/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@3.0.8/node_modules/[4m@vitest[24m/runner/dist/index.js:41:12[90m)[39m
+    at runTest [90m(file:///C:/Users/ees/collarboratecalculator/[39mnode_modules/[4m.pnpm[24m/@vitest+runner@3.0.8/node_modules/[4m@vitest[24m/runner/dist/index.js:1149:17[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+
+            </system-err>
+        </testcase>
+    </testsuite>
+    <testsuite name="src/lib/calculate.test.js" timestamp="2025-03-19T13:22:09.368Z" hostname="ees196" tests="15" failures="0" errors="0" skipped="0" time="0.0081864">
+        <testcase classname="src/lib/calculate.test.js" name="order_of_operations &gt; should multiply first" time="0.0019368">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="order_of_operations &gt; should divide first" time="0.0001718">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="order_of_operations &gt; should multiply when no ops between number and square" time="0.0002174">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="order_of_operations &gt; should do calculations from left to right, divide and multiply" time="0.0001247">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="order_of_operations &gt; should do calculations from left to right, plus and minus" time="0.0001222">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="large_and_small_numbers &gt; should be able to use exponential numbers when big" time="0.0001505">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="large_and_small_numbers &gt; should be able to use exponential numbers when small" time="0.0013223">
+            <system-out>
+coeff:  4.0000 length: [33m6[39m
+
+            </system-out>
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="divide by zero &gt; should throw an Error when dividing by zero" time="0.0011377">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="use_of_squareroot &gt; should remove * when squareroot at start" time="0.0001719">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="use_of_squareroot &gt; should remove one * when using *" time="0.0001337">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="use_of_squareroot &gt; should add * when not using *" time="0.0001301">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="use negative numbers &gt; should be able to start expression with negative number" time="0.0001466">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="use negative numbers &gt; should be able to add negative number in expression" time="0.0001193">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="use negative numbers &gt; should be able to multiply with negative number in expression" time="0.0001499">
+        </testcase>
+        <testcase classname="src/lib/calculate.test.js" name="use negative numbers &gt; should be able to divide with negative number in expression" time="0.000229">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/lib/utils.test.js" timestamp="2025-03-19T13:22:09.371Z" hostname="ees196" tests="12" failures="0" errors="0" skipped="0" time="0.0043839">
+        <testcase classname="src/lib/utils.test.js" name="is_operator &gt; should return true if the input is an operator" time="0.0015858">
+        </testcase>
+        <testcase classname="src/lib/utils.test.js" name="is_operator &gt; should return false if the input is not an operator" time="0.0001473">
+        </testcase>
+        <testcase classname="src/lib/utils.test.js" name="is_operator &gt; should return false if the input is an empty string" time="0.0001091">
+        </testcase>
+        <testcase classname="src/lib/utils.test.js" name="is_operator &gt; should return false if the input is a number" time="0.0001014">
+        </testcase>
+        <testcase classname="src/lib/utils.test.js" name="is_number &gt; should return true if the input is a number" time="0.0001392">
+        </testcase>
+        <testcase classname="src/lib/utils.test.js" name="is_number &gt; should return false if the input is an operator" time="0.0001043">
+        </testcase>
+        <testcase classname="src/lib/utils.test.js" name="is_number &gt; should return false if the input is an empty string" time="0.0001029">
+        </testcase>
+        <testcase classname="src/lib/utils.test.js" name="lastchar &gt; should return the last character in a string" time="0.0001234">
+        </testcase>
+        <testcase classname="src/lib/utils.test.js" name="lastchar &gt; should return 4" time="0.0001138">
+        </testcase>
+        <testcase classname="src/lib/utils.test.js" name="lastchar &gt; should return +" time="0.0001009">
+        </testcase>
+        <testcase classname="src/lib/utils.test.js" name="lastchar &gt; should return space" time="0.0000992">
+        </testcase>
+        <testcase classname="src/lib/utils.test.js" name="lastchar &gt; should return undefined" time="0.0001003">
+        </testcase>
+    </testsuite>
+</testsuites>
