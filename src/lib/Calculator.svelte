@@ -48,7 +48,7 @@
             try {
                 let result = calculate(string)
 
-                if ((result < 10000000 && result > 0.0000001) || (result > -10000000 && result < -0.0000001) || result === 0) {
+                if ((result < 10000000 && result > 0.000001) || (result > -10000000 && result < -0.000001) || result === 0) {
                     input_string = Math.round(result * 1000000) / 1000000;
                 } else {
                     input_string = result.toExponential(4);
