@@ -62,7 +62,7 @@ describe("operator_click", () => {
         expect(operator_click("", false, "-")).toStrictEqual({input_string: "-", equalstate: false})
     })
 
-    it("can add - after an operator (exept after -)", () => {
+    it("can add - after an operator (except after -)", () => {
         expect(operator_click("3+", false, "-")).toStrictEqual({input_string: "3+-", equalstate: false})
     })
 
@@ -90,10 +90,22 @@ describe("operator_click", () => {
         expect(operator_click("3,3", false, ",")).toStrictEqual({input_string: "3,3", equalstate: false})
     })
 
-    it("should not be able to add comma when equalstate is true", () => {
-        expect(operator_click("33", true, ",")).toStrictEqual({input_string: "33", equalstate: true})
+    it("When equalstate is true, comma button should give input string 0,", () => {
+        expect(operator_click("33", true, ",")).toStrictEqual({input_string: "0,", equalstate: false})
     })
-    
+
+    it("Comma button when input is empty should give input string 0,", () => {
+        expect(operator_click("", false, ",")).toStrictEqual({input_string: "0,", equalstate: false})
+    })
+
+    it("Comma button when lastchar is an operator should add 0, to input string", () => {
+        expect(operator_click("4+", false, ",")).toStrictEqual({input_string: "4+0,", equalstate: false})
+    })
+
+    it("Comma button when lastchar is √ should add 0, to input string", () => {
+        expect(operator_click("3√", false, ",")).toStrictEqual({input_string: "3√0,", equalstate: false})
+    })
+
     it("should not add another operator after an operator (except - and √)", () => {
         expect(operator_click("3+", false, "*")).toStrictEqual({input_string: "3+", equalstate: false})
     })

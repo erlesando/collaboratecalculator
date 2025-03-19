@@ -37,10 +37,16 @@ export function operator_click(input_string, equalstate, value) {
         // If comma, dont add new comma
         if (!equalstate) {
             let split = (/[+-/×/g/÷/g]/.test(input_string) ? input_string.split(/[\+\-\/×/g\/÷/g]/) : "");
-            if (/,/.test(lastchar(split)) || input_string === "" || (is_operator(lastchar(input_string))) ) {
+
+            if (input_string === "" || (is_operator(lastchar(input_string.toString())))) {
+                input_string = input_string + "0,"
+                return {input_string, equalstate};
+            } else if (/,/.test(lastchar(split))) {
                 return {input_string, equalstate};
             }
         } else {
+            input_string = "0,"
+            equalstate = false
             return {input_string, equalstate};
         }
     }
@@ -56,8 +62,8 @@ export function operator_click(input_string, equalstate, value) {
     }
 
     // Allow minus after operator except for minus
-    if (value === "-" && is_operator(lastchar(input_string))) {
-        if (lastchar(input_string) === "-") {
+    if (value === "-" && is_operator(lastchar(input_string.toString()))) {
+        if (lastchar(input_string.toString()) === "-") {
             return {input_string, equalstate};
         } else {
             input_string = input_string + value;
@@ -71,7 +77,10 @@ export function operator_click(input_string, equalstate, value) {
         return {input_string, equalstate};
     }
 
-    if (value !== "-" && (is_operator(lastchar(input_string.toString())) || lastchar(input_string) === "√") && is_operator(value) ) {
+    if (value !== "-" && (is_operator(lastchar(input_string.toString())) || lastchar(input_string.toString()) === "√") && (is_operator(value) || value === ",") ) {
+        if (value === ",") {
+            input_string = input_string + "0,"
+        }
         // if last operator is same
         return {input_string, equalstate};
     }
@@ -90,12 +99,11 @@ export function operator_click(input_string, equalstate, value) {
 export function calculate_result(input_string) {
     let equalstate = false;
     // if input is empty or last character is operator, return
-    if (input_string === "" || is_operator(lastchar(input_string))|| lastchar(input_string) === "√" || input_string === "Error" || input_string === "NaN") {
+    if (input_string === "" || is_operator(lastchar(input_string.toString()))|| lastchar(input_string.toString()) === "√" || input_string === "Error" || input_string === "NaN") {
         return {input_string, equalstate};
     } else {
         try {
             let result = calculate(input_string)
-
             if ((result < 10000000 && result > 0.000001) || (result > -10000000 && result < -0.000001) || result === 0) {
                 input_string = Math.round(result * 1000000) / 1000000;
             } else {

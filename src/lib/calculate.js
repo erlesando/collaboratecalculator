@@ -17,7 +17,8 @@ export function calculate(expression) {
     if (expression.includes("e+")) {
         let coeff = expression.split("e+")[0];
         let exponent = expression.split(/([+\-*/])/)[2];
-        let expnumber = Number(coeff) * 10**Number(exponent)
+        let myNumb = Number(coeff) * 10**Number(exponent)
+        let expnumber = myNumb.toLocaleString('fullwide', {useGrouping:false})
         let expstring = coeff + "e+" + exponent;
         expression = expression.replace(expstring, expnumber);
     }
@@ -29,7 +30,6 @@ export function calculate(expression) {
         let expnumber = (Number(coeff) / 10**Number(exponent)).toFixed(Number(exponent)+4)
         let expstring = coeff + "e-" + exponent;
         expression = expression.replace(expstring, expnumber);
-        
     }
     function split_expression(expression) {
         return expression.split(/([+\-*/])/).filter(item => item.trim() !== "");
@@ -46,7 +46,7 @@ export function calculate(expression) {
     numberofoperators = expressionarray.length - numberofnumbers 
     console.log('numbers: ', numberofnumbers, 'ops', numberofoperators) */
 
-    // Fjerning av * foran kvadratrot når flere * er tilstede
+    // Fjerning av * foran kvadratrot når flere * er tilstede + la - være først i string
     if (expressionarray[0] === "*") {
         expressionarray.splice(0, 1);
     }
