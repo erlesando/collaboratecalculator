@@ -19,7 +19,7 @@
 
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="bordered calculator" onkeydown={() => ({input_string, equalstate} = handle_keypress(input_string, equalstate, event))}>
+<div class="bordered calculator" onkeydown={() => ({input_string, equalstate} = handle_keypress(input_string, equalstate, event.key))}>
     <input class="bordered inputbox" style="color:black" readonly value={input_string}>	
     
     <div class="button-container">
@@ -112,8 +112,6 @@
 
 		background-color: darkgray;
 		text-align: center;
-        transform: scale(0.8);
-        transform-origin: left;
 
         /* space between calculator innards and edge of calculator */
         padding: var(--space);

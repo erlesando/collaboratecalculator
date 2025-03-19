@@ -2,7 +2,14 @@
 import { describe, it, expect } from "vitest";
 
 // import functions from button_clicks.js
-import { reset_calculator, backspace, number_click, operator_click, calculate_result } from "./button_clicks.js"
+import { 
+    reset_calculator, 
+    backspace, 
+    number_click, 
+    operator_click, 
+    calculate_result, 
+    handle_keypress 
+    } from "./button_clicks.js"
 
 describe("reset_calculator", () => {
     it("should reset the calculator when C button", () => {
@@ -131,5 +138,47 @@ describe("calculate_result", () => {
 
     it("should be thrown error when dividing by zero", () => {
         expect(calculate_result("3/0")).toStrictEqual({input_string: "Error", equalstate: false})
+    })
+})
+
+describe("handle_keypress", () => {
+    it("should add number to input_string when a number key is pressed", () => {
+        expect(handle_keypress("12", false, "3")).toStrictEqual({input_string: "123", equalstate: false})
+    })
+
+    it("should add operator to input_string when a operator key is pressed", () => {
+        expect(handle_keypress("12", false, "+")).toStrictEqual({input_string: "12+", equalstate: false})
+    })
+
+    it("should add × to input_string when * key is pressed", () => {
+        expect(handle_keypress("12", false, "*")).toStrictEqual({input_string: "12×", equalstate: false})
+    })
+
+    it("should add ÷ to input_string when / key is pressed", () => {
+        expect(handle_keypress("12", false, "/")).toStrictEqual({input_string: "12÷", equalstate: false})
+    })
+
+    it("should add comma to input_string when , key is pressed", () => {
+        expect(handle_keypress("12", false, ",")).toStrictEqual({input_string: "12,", equalstate: false})
+    })
+
+    it("should add comma to input_string when a . key is pressed", () => {
+        expect(handle_keypress("12", false, ".")).toStrictEqual({input_string: "12,", equalstate: false})
+    })
+
+    it("should calculate input_string when a Enter key is pressed", () => {
+        expect(handle_keypress("12+4", false, "Enter")).toStrictEqual({input_string: "16", equalstate: true})
+    })
+
+    it("should calculate input_string when a = key is pressed", () => {
+        expect(handle_keypress("12+4", false, "=")).toStrictEqual({input_string: "16", equalstate: true})
+    })
+
+    it("should clear input_string when a Escape key is pressed", () => {
+        expect(handle_keypress("12+4", false, "Escape")).toStrictEqual({input_string: "", equalstate: false})
+    })
+
+    it("should delete last char when backspace button", () => {
+        expect(handle_keypress("12+4", false, "Backspace")).toStrictEqual({input_string: "12+", equalstate: false})
     })
 })

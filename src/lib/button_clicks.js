@@ -112,9 +112,7 @@ export function calculate_result(input_string) {
     return {input_string, equalstate}
 }
 
-export function handle_keypress(input_string, equalstate, event) {
-    console.log(event)
-    const key = event.key;
+export function handle_keypress(input_string, equalstate, key) {
     if (/^\d$/.test(key)) {
         ({input_string, equalstate} = number_click(input_string, equalstate, key));
     } else if (/[+\-]/.test(key)) {
@@ -130,7 +128,7 @@ export function handle_keypress(input_string, equalstate, event) {
     } else if (key === "Escape") {
         ({input_string, equalstate} = reset_calculator(input_string, equalstate));
     } else if (key === "Backspace") {
-        ({input_string, equalstate} = backspace(input_string, equalstate));
+        ({input_string} = backspace(input_string, equalstate));
     }
     return {input_string, equalstate}
 }
