@@ -37,8 +37,10 @@ describe("large_and_small_numbers", () => {
 
 // Dont think this will work
 describe("divide by zero", () => {
-    it("should occur Error when dividing by zero", () => {
-        expect(calculate("1/0")).toBe("Error")
+    it("should throw an Error when dividing by zero", () => {
+        expect(() => {
+            calculate("1/0")
+        }).toThrow("divide by zero")
     })
 })
 
@@ -46,7 +48,7 @@ describe("use_of_squareroot", () => {
     it("should remove one * when using *", () => {
         expect(calculate("2*√9")).toBe(6)
     })
-    it("should add * when not using *" () => {
+    it("should add * when not using *", () => {
         expect(calculate("2√9")).toBe(6)
     })
 })

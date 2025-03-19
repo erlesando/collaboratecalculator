@@ -95,7 +95,7 @@ export function calculate(expression) {
             let first_number = numbers[i];
             let next_number = numbers[i + 1];
             if (next_number === 0) {
-                throw new Error ("devide by zero");
+                throw new Error ("divide by zero");
             }
             let temp_result = first_number / next_number;
             numbers.splice(i, 2, temp_result);
