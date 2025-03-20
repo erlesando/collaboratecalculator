@@ -8,27 +8,6 @@ export function calculate(expression) {
     expression = expression.replace(/×/g, "*").replace(/÷/g, "/");
     expression = expression.replace(/,/g, ".");
 
-    
-    // when large numbers
-    if (expression.includes("e+")) {
-        let coeff = expression.split("e+")[0];
-        let exponent = (coeff.includes("-") ? expression.split(/([+\-*/])/)[4] : expression.split(/([+\-*/])/)[2])
-        let my_numb = Number(coeff) * 10**Number(exponent)
-        let new_numb = my_numb.toLocaleString('fullwide', {useGrouping:false})
-        let expnumber = (coeff.includes("-") ? "-" + new_numb : new_numb)
-        let expstring = coeff + "e+" + exponent;
-        expression = expression.replace(expstring, expnumber);
-    }
-    
-    // when small numbers
-    if (expression.includes("e-")) {
-        let coeff = expression.split("e-")[0];
-        let exponent = (coeff.includes("-") ? expression.split(/([+\-*/])/)[4] : expression.split(/([+\-*/])/)[2])
-        let expnumber = (Number(coeff) / 10**Number(exponent)).toFixed(Number(exponent)+4)
-        let expstring = coeff + "e-" + exponent;
-        expression = expression.replace(expstring, expnumber);
-    }
-
     // Replace √
     if (expression.includes("√")) {
         while (expression.includes("√")) {
@@ -46,7 +25,17 @@ export function calculate(expression) {
         return expression.split(/([+\-*/])/).filter(item => item.trim() !== "");
     }
 
+
     let expressionarray = split_expression(expression);
+
+    // make sure exponential numbers count as one number
+    if (expressionarray[0].includes("e")) {
+        if (expressionarray.length <= 3) {
+            expressionarray = [expressionarray.join("")];  // If there are 3 or fewer elements, just join all
+        } else {
+            expressionarray = [expressionarray.slice(0, 3).join(""), ...expressionarray.slice(3)];
+        }
+    }
     let numberofoperators = 0;
     let numberofnumbers = 0;
     let removeoperators = [];
@@ -81,8 +70,17 @@ export function calculate(expression) {
     // Get numbers and operators
     let expression_string = expressionarray.join("")
     let numbers = expression_string.match(/\d+(\.\d+)?/g).map(Number)
-    let operators = expression_string.match(/[+\-*/]/g)
+    let operators = expression_string.match(/[+\-*/]/g)    
 
+    // make sure exponential numbers count as one number
+    if (expression_string.includes("e")) {
+        let plus_or_minus = (expression[0] === "-" ? operators[1] : operators[0])
+        numbers[0] = Number(numbers[0] + "e" + plus_or_minus + numbers[1])
+        numbers.splice(1,1)
+        operators.splice(0,1)
+    }
+
+    // use minus operator to make negative numbers where its supposed to
     for (let i = 0; i < removeoperators?.length; i++) {
         operators.splice(removeoperators[i], 1)
         removeoperators = removeoperators.map(x => x-1)
