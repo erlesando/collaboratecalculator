@@ -28,27 +28,31 @@ describe("order_of_operations", () => {
 
 describe("large_and_small_numbers", () => {
     it("should be able to use exponential numbers when big", () => {
-        expect(calculate("4,0000e+7*3")).toBe(1.2e+8)
+        expect(calculate("4,0000e+7*3")).toBe("1.2000e+8")
     })
 
     it("should be able to use exponential numbers when small", () => {
-        expect(calculate("4,0000e-7*3")).toBe(1.2e-6)
+        expect(calculate("4,0000e-9*3")).toBe("1.2000e-8")
     })
 
     it("should be able to use exponential numbers when really big", () => {
-        expect(calculate("4,0e+31*3")).toBe(1.2e+32)
+        expect(calculate("4,0e+31*3")).toBe("1.2000e+32")
     })
 
     it("should be able to use exponential numbers when really small", () => {
-        expect(calculate("4,0000e-31*3")).toBe(1.2e-30)
+        expect(calculate("4,0000e-31*3")).toBe("1.2000e-30")
     })
 
     it("should be able to use negative exponential numbers when big", () => {
-        expect(calculate("-4,0000e+7*2")).toBe(-8e7)
+        expect(calculate("-4,0000e+7*2")).toBe("-8.0000e+7")
     })
 
     it("should be able to use negative exponential numbers when small", () => {
-        expect(calculate("-4,0000e-7*2")).toBe(-8e-7)
+        expect(calculate("-4,0000e-7*2")).toBe("-8.0000e-7")
+    })
+
+    it("should be able to do nothing when no operations", () => {
+        expect(calculate("4,0000e+9")).toBe("4.0000e+9")
     })
 })
 

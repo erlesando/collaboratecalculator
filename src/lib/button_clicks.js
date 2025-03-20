@@ -124,13 +124,7 @@ export function calculate_result(input_string) {
     } else {
         try {
             let result = calculate(input_string)
-            if ((result < 10000000 && result > 0.000001) || (result > -10000000 && result < -0.000001) || result === 0) {
-                input_string = Math.round(result * 1000000) / 1000000;
-            } else {
-                input_string = result.toExponential(4);
-            }
-
-            input_string = input_string.toString().replace(".", ",");    
+            input_string = result.toString().replace(".", ",");    
             equalstate = true
         } catch (e) {
             console.error(e)

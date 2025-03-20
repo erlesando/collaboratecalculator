@@ -117,5 +117,11 @@ export function calculate(expression) {
             case "-": result -= next_number; break;
         }
     }
+
+    if ((result < 10000000 && result > 0.000001) || (result > -10000000 && result < -0.000001) || result === 0) {
+        result = Math.round(result * 1000000) / 1000000;
+    } else {
+        result = result.toExponential(4);
+    }
     return result;
 }
