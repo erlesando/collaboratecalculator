@@ -8,8 +8,12 @@ export function calculate(expression) {
     expression = expression.replace(/×/g, "*").replace(/÷/g, "/");
     expression = expression.replace(/,/g, ".");
 
+
     // Replace √
-    if (expression.includes("√")) {
+    if (expression[0] === "√") {
+        let number = expression.slice(1)
+        return calculate((Math.sqrt(parseFloat(number))).toString())
+    } else if (expression.includes("√")) {
         while (expression.includes("√")) {
             expression = expression.replace(/√(\d+(\.\d+)?)/g, (match, number) => {
                 return "*" + Math.sqrt(parseFloat(number)); // Erstatt √9 med 3
