@@ -26,7 +26,6 @@ export function calculate(expression) {
         let exponent = (coeff.includes("-") ? expression.split(/([+\-*/])/)[4] : expression.split(/([+\-*/])/)[2])
         let expnumber = (Number(coeff) / 10**Number(exponent)).toFixed(Number(exponent)+4)
         let expstring = coeff + "e-" + exponent;
-        console.log("coeff", Number(coeff), "exponent", exponent, "expnumber", expnumber, "expstring", expstring)
         expression = expression.replace(expstring, expnumber);
     }
 
