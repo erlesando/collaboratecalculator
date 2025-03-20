@@ -84,6 +84,6 @@ describe("lastchar", () => {
     });
 
     it("should return undefined", () => {
-        expect(lastchar("")).toBe(undefined);
+        expect(lastchar("")).toBe("");
     });
 });

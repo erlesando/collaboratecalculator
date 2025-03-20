@@ -4,13 +4,16 @@ import { is_operator, is_number, lastchar } from "./utils.js";
 // import calculate
 import { calculate } from "./calculate.js";
 
+// To remove everything in input, when clicking "C" button
 export const reset_calculator = (input_string, equalstate) => {
     input_string = "";
     equalstate = false; 
     return {input_string, equalstate}
 }
 
+// To remove last item in input, when clicking backspace
 export const backspace = (input_string, equalstate) => {
+    
     if (input_string.length > 0 && !equalstate){
         input_string = input_string.slice(0, -1);
     } else {
@@ -25,21 +28,31 @@ export const number_click = (input_string, equalstate, value) => {
     if (input_string === "Error") {
         input_string = value;
     } else {
-        input_string = (!equalstate ? input_string + value.toString() : value);
-        equalstate = false;
+        // If last number equals zero, do not add zeros (except after commas)
+        let split = (/[+-/×/g/÷/g]/.test(input_string) ? input_string.split(/[\+\-\/×/g\/÷/g]/) : [input_string]);
+        let res = (split.length !== 1 ? Number(lastchar(split)) : (split[0] === "" ? "NaN" : Number(split)))
+        if (!is_operator(lastchar(input_string)) && res === 0 && value === "0" && !/,/.test(lastchar(split))) {
+            // do not change input
+        } else {
+            input_string = (!equalstate ? input_string + value.toString() : value);
+        }
     }
+    equalstate = false;
     return {input_string, equalstate}
 }
 
+// When clicking +,-,*,/,√,. or ,
 export function operator_click(input_string, equalstate, value) {
+    
     // If comma
     if (value === ",") {
-        // If comma, dont add new comma
+        // If comma in number, dont add another comma
         if (!equalstate) {
             let split = (/[+-/×/g/÷/g]/.test(input_string) ? input_string.split(/[\+\-\/×/g\/÷/g]/) : "");
 
+            // if comma is pressed first in empty input or first after an operator, add a zero in front
             if (input_string === "" || (is_operator(lastchar(input_string.toString())))) {
-                input_string = input_string + "0,"
+                input_string = input_string + "0," 
                 return {input_string, equalstate};
             } else if (/,/.test(lastchar(split))) {
                 return {input_string, equalstate};
@@ -51,7 +64,7 @@ export function operator_click(input_string, equalstate, value) {
         }
     }
 
-    // Allow minus as first character and after operator
+    // Allow minus as first character, do not allow other operators to start
     if (input_string === "" && is_operator(value)) {
         if (value === "-") {
             input_string = input_string + value;
@@ -71,17 +84,24 @@ export function operator_click(input_string, equalstate, value) {
         }
     }
 
-    // Allow √ as first character
-    if (input_string === "" && value === "√") {
-        input_string = value;
-        return {input_string, equalstate};
-    }
-
-    if (value !== "-" && (is_operator(lastchar(input_string.toString())) || lastchar(input_string.toString()) === "√") && (is_operator(value) || value === ",") ) {
+    // Avoid multiple operators right after eachother
+    if (value !== "-" && (is_operator(lastchar(input_string.toString())) || lastchar(input_string.toString()) === "√") && (is_operator(value) || value === ",")) {
         if (value === ",") {
             input_string = input_string + "0,"
         }
         // if last operator is same
+        return {input_string, equalstate};
+    }    
+
+    // calculate squareroot of number if equalstate
+    if (equalstate && value === "√") {
+        input_string = calculate_result("√"+input_string).input_string
+        return {input_string, equalstate}
+    }
+
+    // Allow √ as first character
+    if (input_string === "" && value === "√") {
+        input_string = value;
         return {input_string, equalstate};
     }
 
@@ -92,14 +112,14 @@ export function operator_click(input_string, equalstate, value) {
         input_string = (!equalstate || is_operator(value) ? input_string + value.toString() : value);
         equalstate = false;
     }
-
     return {input_string, equalstate}
 }
 
+// When hitting Enter or equal button
 export function calculate_result(input_string) {
     let equalstate = false;
     // if input is empty or last character is operator, return
-    if (input_string === "" || is_operator(lastchar(input_string.toString()))|| lastchar(input_string.toString()) === "√" || input_string === "Error" || input_string === "NaN") {
+    if (input_string === "" || is_operator(lastchar(input_string))|| lastchar(input_string) === "√" || input_string === "Error" || input_string === "NaN") {
         return {input_string, equalstate};
     } else {
         try {
@@ -120,6 +140,7 @@ export function calculate_result(input_string) {
     return {input_string, equalstate}
 }
 
+// To use keys
 export function handle_keypress(input_string, equalstate, key) {
     if (/^\d$/.test(key)) {
         ({input_string, equalstate} = number_click(input_string, equalstate, key));

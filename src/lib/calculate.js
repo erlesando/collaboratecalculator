@@ -1,6 +1,6 @@
 import { is_operator, is_number, lastchar } from "./utils.js";
 
-// functionality...
+// functionality
 export function calculate(expression) {
     const operatorsigns = "+-*/"
 
@@ -8,29 +8,41 @@ export function calculate(expression) {
     expression = expression.replace(/×/g, "*").replace(/÷/g, "/");
     expression = expression.replace(/,/g, ".");
 
-    // Replace √
-    expression = expression.replace(/√(\d+(\.\d+)?)/g, (match, number) => {
-        return "*" + Math.sqrt(parseFloat(number)); // Erstatt √9 med 3
-    });
-
+    
     // when large numbers
     if (expression.includes("e+")) {
         let coeff = expression.split("e+")[0];
-        let exponent = expression.split(/([+\-*/])/)[2];
-        let myNumb = Number(coeff) * 10**Number(exponent)
-        let expnumber = myNumb.toLocaleString('fullwide', {useGrouping:false})
+        let exponent = (coeff.includes("-") ? expression.split(/([+\-*/])/)[4] : expression.split(/([+\-*/])/)[2])
+        let my_numb = Number(coeff) * 10**Number(exponent)
+        let new_numb = my_numb.toLocaleString('fullwide', {useGrouping:false})
+        let expnumber = (coeff.includes("-") ? "-" + new_numb : new_numb)
         let expstring = coeff + "e+" + exponent;
         expression = expression.replace(expstring, expnumber);
     }
-
+    
+    // when small numbers
     if (expression.includes("e-")) {
         let coeff = expression.split("e-")[0];
-        console.log("coeff: ", coeff, "length:", coeff.length)
-        let exponent = expression.split(/([+\-*/])/)[2];
+        let exponent = (coeff.includes("-") ? expression.split(/([+\-*/])/)[4] : expression.split(/([+\-*/])/)[2])
         let expnumber = (Number(coeff) / 10**Number(exponent)).toFixed(Number(exponent)+4)
         let expstring = coeff + "e-" + exponent;
+        console.log("coeff", Number(coeff), "exponent", exponent, "expnumber", expnumber, "expstring", expstring)
         expression = expression.replace(expstring, expnumber);
     }
+
+    // Replace √
+    if (expression.includes("√")) {
+        while (expression.includes("√")) {
+            expression = expression.replace(/√(\d+(\.\d+)?)/g, (match, number) => {
+                return "*" + Math.sqrt(parseFloat(number)); // Erstatt √9 med 3
+            });
+
+            expression = expression.replace(/√\*(\d+(\.\d+)?)/g, (match, number) => {
+                return "*" + Math.sqrt(parseFloat(number)); // Erstatt √9 med 3
+            });
+        }
+    }
+
     function split_expression(expression) {
         return expression.split(/([+\-*/])/).filter(item => item.trim() !== "");
     }
@@ -41,12 +53,7 @@ export function calculate(expression) {
     let removeoperators = [];
     let changenumbers = [];
 
-
-/*     numberofnumbers = expressionarray.filter((expression) => /[0-9+]/g.test(expression)}).length
-    numberofoperators = expressionarray.length - numberofnumbers 
-    console.log('numbers: ', numberofnumbers, 'ops', numberofoperators) */
-
-    // Fjerning av * foran kvadratrot når flere * er tilstede + la - være først i string
+    // Remove * in front of squareroot when multiple * have been added, plus let - be first in string
     if (expressionarray[0] === "*") {
         expressionarray.splice(0, 1);
     }
@@ -77,13 +84,13 @@ export function calculate(expression) {
     let numbers = expression_string.match(/\d+(\.\d+)?/g).map(Number)
     let operators = expression_string.match(/[+\-*/]/g)
 
-    for (let i = 0; i < removeoperators.length; i++) {
+    for (let i = 0; i < removeoperators?.length; i++) {
         operators.splice(removeoperators[i], 1)
         removeoperators = removeoperators.map(x => x-1)
         numbers[changenumbers[i]] = -numbers[changenumbers[i]]
     }
-    // Beregn resultatet trinnvis, først * og /, deretter + og -
 
+    // Calculate first * and /, then + and -
     for (let i = 0; i <= operators?.length; i++) {
         if (operators[i] === "*") {
             let first_number = numbers[i]
@@ -112,6 +119,6 @@ export function calculate(expression) {
             case "+": result += next_number; break;
             case "-": result -= next_number; break;
         }
-    }    
+    }
     return result;
 }

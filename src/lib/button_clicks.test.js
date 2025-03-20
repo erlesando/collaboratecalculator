@@ -43,6 +43,14 @@ describe("number_click", () => {
     it("should add to input_string when equalstate 0", () => {
         expect(number_click("124", false, "3")).toStrictEqual({input_string: "1243", equalstate: false})
     })
+
+    it("should not be able to add multiple 0 at start of a number", () => {
+        expect(number_click("0", false, "0")).toStrictEqual({input_string: "0", equalstate: false})
+    })
+
+    it("should be able to add multiple 0 at end of a number", () => {
+        expect(number_click("10+0", false, "0")).toStrictEqual({input_string: "10+0", equalstate: false})
+    })
 })
 
 describe("operator_click", () => {
@@ -78,8 +86,8 @@ describe("operator_click", () => {
         expect(operator_click("3+", false, "√")).toStrictEqual({input_string: "3+√", equalstate: false})
     })
 
-    it("if equalstate is true and value is √ replace input with √", () => {
-        expect(operator_click("343", true, "√")).toStrictEqual({input_string: "√", equalstate: false})
+    it("if equalstate is true and value is √ replace input with squareroot of input", () => {
+        expect(operator_click("81", true, "√")).toStrictEqual({input_string: "9", equalstate: true})
     })
 
     it("should not be able to start with other operators", () => {

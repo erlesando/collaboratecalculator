@@ -37,46 +37,46 @@
             }}>÷</button>
 
         <button class="number" onclick={() => {
-            ({input_string, equalstate} = number_click(input_string, equalstate, 7))
+            ({input_string, equalstate} = number_click(input_string, equalstate, "7"))
             }}>7</button>
         <button class="number" onclick={() => {
-            ({input_string, equalstate} = number_click(input_string, equalstate, 8))
+            ({input_string, equalstate} = number_click(input_string, equalstate, "8"))
             }}>8</button>
         <button class="number" onclick={() => {
-            ({input_string, equalstate} = number_click(input_string, equalstate, 9))
+            ({input_string, equalstate} = number_click(input_string, equalstate, "9"))
             }}>9</button>
         <button class="operator" onclick={() => {
             ({input_string, equalstate} = operator_click(input_string, equalstate, "×"))
             }}>×</button>
         
         <button class="number" onclick={() => {
-            ({input_string, equalstate} = number_click(input_string, equalstate, 4))
+            ({input_string, equalstate} = number_click(input_string, equalstate, "4"))
             }}>4</button>
         <button class="number" onclick={() => {
-            ({input_string, equalstate} = number_click(input_string, equalstate, 5))
+            ({input_string, equalstate} = number_click(input_string, equalstate, "5"))
             }}>5</button>
         <button class="number" onclick={() => {
-            ({input_string, equalstate} = number_click(input_string, equalstate, 6))
+            ({input_string, equalstate} = number_click(input_string, equalstate, "6"))
             }}>6</button>
         <button class="operator" onclick={() => {
             ({input_string, equalstate} = operator_click(input_string, equalstate, "-"))
             }}>-</button>
         
         <button class="number" onclick={() => {
-            ({input_string, equalstate} = number_click(input_string, equalstate, 1))
+            ({input_string, equalstate} = number_click(input_string, equalstate, "1"))
             }}>1</button>
         <button class="number" onclick={() => {
-            ({input_string, equalstate} = number_click(input_string, equalstate, 2))
+            ({input_string, equalstate} = number_click(input_string, equalstate, "2"))
             }}>2</button>
         <button class="number" onclick={() => {
-            ({input_string, equalstate} = number_click(input_string, equalstate, 3))
+            ({input_string, equalstate} = number_click(input_string, equalstate, "3"))
             }}>3</button>
         <button class="operator" onclick={() => {
             ({input_string, equalstate} = operator_click(input_string, equalstate, "+"))
             }}>+</button>
         
         <button class="number zero" onclick={() => {
-            ({input_string, equalstate} = number_click(input_string, equalstate, 0))
+            ({input_string, equalstate} = number_click(input_string, equalstate, "0"))
             }}>0</button>
         <button class="number" onclick={() => {
             ({input_string, equalstate} = operator_click(input_string, equalstate, ","))
