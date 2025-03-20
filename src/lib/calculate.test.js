@@ -80,6 +80,10 @@ describe("use_of_squareroot", () => {
     it("should be possible to have multiple √ after eachother", () => {
         expect(calculate("√√81")).toBe(3)
     })
+
+    it("should be possible to use √ of big numbers", () => {
+        expect(calculate("√9e10")).toBe(300000)
+    })
 })
 
 describe("use negative numbers", () => {

@@ -10,7 +10,7 @@ export function calculate(expression) {
 
 
     // Replace √
-    if (expression[0] === "√") {
+    if (expression.includes("e") && expression[0] === "√") {
         let number = expression.slice(1)
         return calculate((Math.sqrt(parseFloat(number))).toString())
     } else if (expression.includes("√")) {
