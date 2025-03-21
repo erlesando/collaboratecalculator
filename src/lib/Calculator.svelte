@@ -109,7 +109,7 @@
     */
     .calculator {
         --space: 1rem;   /* general space between elements */
-        --font-size: 35px;
+        --font-size: 25px;
 
         --border-color: black;
         --border: 2px solid var(--border-color);
@@ -119,10 +119,10 @@
 		text-align: center;
 
         /* space between calculator innards and edge of calculator */
+        margin-left: auto;
+        margin-top: auto;
         padding: var(--space);
-
-        transform: scale(0.5); /* Adjust size while keeping proportions */
-        transform-origin: left top; /* Ensures it scales from the middle */
+        width: 90%;
     }
 
     /*
@@ -135,6 +135,9 @@
     }
 
     .invisible_input {
+        width: 90%;
+        caret-color: transparent;
+
         /* padding inside inputbox (make it relative to 1 character ~ 1ch) */
         padding-block: 0.5ch;
         padding-inline: 0.5ch;
@@ -142,17 +145,17 @@
 		background-color: white;
 		text-align: right;
         border: none;
-        outline: none
+        outline: none;
 	}
 
     .log {
         color: gray;
-        font-size: 25px
+        font-size: 15px
 	}
 
     .calc {
         color: black;
-        font-size: 40px;
+        font-size: 25px;
     }
 
 	.inputbox {

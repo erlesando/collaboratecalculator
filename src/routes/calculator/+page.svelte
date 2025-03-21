@@ -1,5 +1,4 @@
 <script>
-    let {onkeydown} = $props()
     import Calculator from "$lib/Calculator.svelte";
 </script>
 
