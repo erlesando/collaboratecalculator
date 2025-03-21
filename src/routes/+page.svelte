@@ -5,7 +5,7 @@
         let height = 450;
         let width = 320;
         const popup = window.open("/calculator", "Calculator", "popup, width="+ width + "px, height="+ height + "px");
-        if (popup) popup.focus(); //document.getElementById("input").focus();
+        if (popup) popup.focus();
     }
 </script>
 
