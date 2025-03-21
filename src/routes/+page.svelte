@@ -2,8 +2,10 @@
 
     function open_calculator() {
         // FIXME: find correct size for the popup
-        const popup = window.open("/calculator", "Calculator", "popup,width=440,height=600px");
-        if (popup) popup.focus();
+        let height = 450;
+        let width = 320;
+        const popup = window.open("/calculator", "Calculator", "popup, width="+ width + "px, height="+ height + "px");
+        if (popup) popup.focus(); //document.getElementById("input").focus();
     }
 </script>
 

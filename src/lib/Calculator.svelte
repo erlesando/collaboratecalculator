@@ -1,4 +1,11 @@
 <script>
+    import Button from "./Button.svelte";
+    import { onMount } from "svelte"
+
+    onMount(() => {
+        document.getElementById("input").focus(); // Automatically focuses the calculator div
+    });
+
     import { 
         is_operator, 
         is_number, 
@@ -20,81 +27,79 @@
 
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="bordered calculator" onkeydown={() => ({input_string, equalstate, log} = handle_keypress(input_string, equalstate, event.key))}>
+<div class="bordered calculator" onkeydown={() => document.getElementById("input").focus() ({input_string, equalstate, log} = handle_keypress(input_string, equalstate, event.key))} >
     <div class="bordered inputbox" style="color:black">
-        <input class="invisible_input log" readonly value={(equalstate ? log : "")}>
-        <input class="invisible_input calc" readonly value={input_string}>	
-    </div><br>
+        <input class="invisible_input log" readonly value={(equalstate ? log : "")}/> <br>
+        <input id="input" class="invisible_input calc" readonly value={input_string}/>	
+    </div>
     
     <div class="button-container">
-        <button class="operator" onclick={() => {
+        <Button type={"operator"} onclick={() => {
             ({input_string, equalstate} = reset_calculator(input_string, equalstate))
-            }}>C</button>
-        <button aria-label="Backspace" class="operator" onclick={() => {
+            }} sign={"C"}/>
+        <Button type={"operator"} onclick={() => {
             ({input_string, equalstate} = backspace(input_string, equalstate))
-            }}><img alt="Backspace" src="images/backspace_25dp.svg"></button>
-        <button class="operator" onclick={() => {
+            }} sign="Backspace"/>
+        <Button type={"operator"} onclick={() => {
             ({input_string, equalstate, log} = operator_click(input_string, equalstate, "√"))
-            }}>√</button>
-        <button class="operator" onclick={() => {
+            }} sign={"√"}/>
+        <Button type={"operator"} onclick={() => {
             ({input_string, equalstate, log} = operator_click(input_string, equalstate, "÷"))
-            }}>÷</button>
+            }} sign="÷"/>
 
-        <button class="number" onclick={() => {
+        <Button type={"number"} onclick={() => {
             ({input_string, equalstate} = number_click(input_string, equalstate, "7"))
-            }}>7</button>
-        <button class="number" onclick={() => {
+            }} sign="7"/>
+        <Button type={"number"} onclick={() => {
             ({input_string, equalstate} = number_click(input_string, equalstate, "8"))
-            }}>8</button>
-        <button class="number" onclick={() => {
+            }} sign="8"/>
+        <Button type={"number"} onclick={() => {
             ({input_string, equalstate} = number_click(input_string, equalstate, "9"))
-            }}>9</button>
-        <button class="operator" onclick={() => {
+            }} sign="9"/>
+        <Button type={"operator"} onclick={() => {
             ({input_string, equalstate, log} = operator_click(input_string, equalstate, "×"))
-            }}>×</button>
-        
-        <button class="number" onclick={() => {
+            }} sign="×"/>
+
+        <Button type={"number"} onclick={() => {
             ({input_string, equalstate} = number_click(input_string, equalstate, "4"))
-            }}>4</button>
-        <button class="number" onclick={() => {
+            }} sign="4"/>
+        <Button type={"number"} onclick={() => {
             ({input_string, equalstate} = number_click(input_string, equalstate, "5"))
-            }}>5</button>
-        <button class="number" onclick={() => {
+            }} sign="5"/>
+        <Button type={"number"} onclick={() => {
             ({input_string, equalstate} = number_click(input_string, equalstate, "6"))
-            }}>6</button>
-        <button class="operator" onclick={() => {
+            }} sign="6"/>
+        <Button type={"operator"} onclick={() => {
             ({input_string, equalstate, log} = operator_click(input_string, equalstate, "-"))
-            }}>-</button>
-        
-        <button class="number" onclick={() => {
+            }} sign="-"/>
+
+        <Button type={"number"} onclick={() => {
             ({input_string, equalstate} = number_click(input_string, equalstate, "1"))
-            }}>1</button>
-        <button class="number" onclick={() => {
+            }} sign="1"/>
+        <Button type={"number"} onclick={() => {
             ({input_string, equalstate} = number_click(input_string, equalstate, "2"))
-            }}>2</button>
-        <button class="number" onclick={() => {
+            }} sign="2"/>
+        <Button type={"number"} onclick={() => {
             ({input_string, equalstate} = number_click(input_string, equalstate, "3"))
-            }}>3</button>
-        <button class="operator" onclick={() => {
+            }} sign="3"/>
+        <Button type={"operator"} onclick={() => {
             ({input_string, equalstate, log} = operator_click(input_string, equalstate, "+"))
-            }}>+</button>
-        
-        <button class="number zero" onclick={() => {
+            }} sign="+"/>
+
+        <Button type={"number zero"} onclick={() => {
             ({input_string, equalstate} = number_click(input_string, equalstate, "0"))
-            }}>0</button>
-        <button class="number" onclick={() => {
+            }} sign="0"/>
+        <Button type={"number"} onclick={() => {
             ({input_string, equalstate, log} = operator_click(input_string, equalstate, ","))
-            }}>,</button>
-        <button class="equal" onclick={() => {
+            }} sign=","/>
+        <Button type={"equal"} onclick={() => {
             ({input_string, equalstate, log} = calculate_result(input_string))
-            }}>=</button>        
+            }} sign="="/>
     </div>
 </div>
 
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=backspace');
-
     /*
         Variables can be used to store values that can be reused throughout the component.
         They are declared with two dashes (--) and can be used in the style block.
@@ -104,21 +109,20 @@
     */
     .calculator {
         --space: 1rem;   /* general space between elements */
-        --font-size: 25px;
+        --font-size: 35px;
 
         --border-color: black;
         --border: 2px solid var(--border-color);
         --border-radius: 0.5em;
-
-        --color-number: #f0f0f0;
-        --color-operator: lightgray;
-        --color-equal: orange;
 
 		background-color: darkgray;
 		text-align: center;
 
         /* space between calculator innards and edge of calculator */
         padding: var(--space);
+
+        transform: scale(0.5); /* Adjust size while keeping proportions */
+        transform-origin: left top; /* Ensures it scales from the middle */
     }
 
     /*
@@ -127,24 +131,13 @@
     */
     .bordered {
         border: var(--border);
-		border-radius: var(--border-radius);        
+		border-radius: var(--border-radius);      
     }
 
-    button {
-        border: 1px solid var(--border-color);
-		border-radius: 6px;
-        background-color: var(--button-background);  /* --button-background is defined in the operator, number, and equal classes */
-        font-size: var(--font-size);
-        aspect-ratio: 1/1;
-
-        &:hover {
-            background: color-mix(in srgb, var(--button-background), black 4%);
-        }
-	}
     .invisible_input {
         /* padding inside inputbox (make it relative to 1 character ~ 1ch) */
-        padding-block: 1ch;
-        padding-inline: 1ch;
+        padding-block: 0.5ch;
+        padding-inline: 0.5ch;
 
 		background-color: white;
 		text-align: right;
@@ -154,12 +147,12 @@
 
     .log {
         color: gray;
-        font-size: 15px
+        font-size: 25px
 	}
 
     .calc {
         color: black;
-        font-size: 25px;
+        font-size: 40px;
     }
 
 	.inputbox {
@@ -180,15 +173,4 @@
         grid-template-rows: repeat(5, 1fr);
         gap: 5px;
     }
-
-    .operator { --button-background: var(--color-operator); }
-    .number { --button-background: var(--color-number); }
-    .equal { --button-background: var(--color-equal); }
-
-    .zero {
-        grid-column: span 2;
-        grid-row: span 1;
-        aspect-ratio: 2.05;  /* magic number */
-    }
-
 </style>

@@ -20,7 +20,7 @@ export const backspace = (input_string, equalstate) => {
         input_string = "";
         equalstate = false;
     }
-    return {input_string, equalstate}
+    return {input_string, equalstate};
 }
 
 export const number_click = (input_string, equalstate, value) => {
@@ -39,7 +39,7 @@ export const number_click = (input_string, equalstate, value) => {
         }
     }
     equalstate = false;
-    return {input_string, equalstate}
+    return {input_string, equalstate};
 }
 
 // When clicking +,-,*,/,√,. or ,
@@ -113,7 +113,7 @@ export function operator_click(input_string, equalstate, value) {
         input_string = (!equalstate || is_operator(value) ? input_string + value.toString() : value);
         equalstate = false;
     }
-    return {input_string, equalstate, log}
+    return {input_string, equalstate, log};
 }
 
 // When hitting Enter or equal button
@@ -126,7 +126,6 @@ export function calculate_result(input_string) {
     } else {
         try {
             let result = calculate(input_string);
-            console.log()
             input_string = result.toString().replace(".", ",");    
             equalstate = true;
         } catch (e) {
@@ -159,4 +158,3 @@ export function handle_keypress(input_string, equalstate, key) {
     }
     return {input_string, equalstate, log}
 }
-

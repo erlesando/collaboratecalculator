@@ -2,7 +2,7 @@ import { is_operator, is_number, lastchar } from "./utils.js";
 
 // functionality
 export function calculate(expression) {
-    const operatorsigns = "+-*/"
+    const operatorsigns = "+-*/";
 
     // Replace ×, ÷ and comma
     expression = expression.replace(/×/g, "*").replace(/÷/g, "/");
@@ -11,7 +11,7 @@ export function calculate(expression) {
 
     // Replace √
     if (expression.includes("e") && expression[0] === "√") {
-        let number = expression.slice(1)
+        let number = expression.slice(1);
         return calculate((Math.sqrt(parseFloat(number))).toString())
     } else if (expression.includes("√")) {
         while (expression.includes("√")) {
@@ -50,8 +50,8 @@ export function calculate(expression) {
         expressionarray.splice(0, 1);
     }
     if (expressionarray[0] === "-"){
-        removeoperators.push(0)
-        changenumbers.push(0)
+        removeoperators.push(0);
+        changenumbers.push(0);
     }
     for (let i = 0; i < expressionarray?.length; i++) {
         if (is_operator(expressionarray[i])) {
@@ -72,34 +72,34 @@ export function calculate(expression) {
     }
 
     // Get numbers and operators
-    let expression_string = expressionarray.join("")
-    let numbers = expression_string.match(/\d+(\.\d+)?/g).map(Number)
-    let operators = expression_string.match(/[+\-*/]/g)    
+    let expression_string = expressionarray.join("");
+    let numbers = expression_string.match(/\d+(\.\d+)?/g).map(Number);
+    let operators = expression_string.match(/[+\-*/]/g);
 
     // make sure exponential numbers count as one number
     if (expression_string.includes("e")) {
-        let plus_or_minus = (expression[0] === "-" ? operators[1] : operators[0])
-        numbers[0] = Number(numbers[0] + "e" + plus_or_minus + numbers[1])
-        numbers.splice(1,1)
-        operators.splice(0,1)
+        let plus_or_minus = (expression[0] === "-" ? operators[1] : operators[0]);
+        numbers[0] = Number(numbers[0] + "e" + plus_or_minus + numbers[1]);
+        numbers.splice(1,1);
+        operators.splice(0,1);
     }
 
     // use minus operator to make negative numbers where its supposed to
     for (let i = 0; i < removeoperators?.length; i++) {
-        operators.splice(removeoperators[i], 1)
-        removeoperators = removeoperators.map(x => x-1)
-        numbers[changenumbers[i]] = -numbers[changenumbers[i]]
+        operators.splice(removeoperators[i], 1);
+        removeoperators = removeoperators.map(x => x-1);
+        numbers[changenumbers[i]] = -numbers[changenumbers[i]];
     }
 
     // Calculate first * and /, then + and -
     for (let i = 0; i <= operators?.length; i++) {
         if (operators[i] === "*") {
-            let first_number = numbers[i]
-            let next_number = numbers[i + 1]
-            let temp_result = first_number * next_number
-            numbers.splice(i, 2, temp_result)
-            operators.splice(i, 1)
-            i = i-1
+            let first_number = numbers[i];
+            let next_number = numbers[i + 1];
+            let temp_result = first_number * next_number;
+            numbers.splice(i, 2, temp_result);
+            operators.splice(i, 1);
+            i = i-1;
         } else if (operators[i] === "/") {
             let first_number = numbers[i];
             let next_number = numbers[i + 1];
@@ -109,7 +109,7 @@ export function calculate(expression) {
             let temp_result = first_number / next_number;
             numbers.splice(i, 2, temp_result);
             operators.splice(i, 1);
-            i = i - 1
+            i = i - 1;
         }
     }
 
