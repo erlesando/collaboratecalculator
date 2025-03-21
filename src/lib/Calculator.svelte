@@ -15,25 +15,29 @@
 
 	let equalstate = $state(false);
     let input_string = $state("");
+    let log = $state("");
 </script>
 
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="bordered calculator" onkeydown={() => ({input_string, equalstate} = handle_keypress(input_string, equalstate, event.key))}>
-    <input class="bordered inputbox" style="color:black" readonly value={input_string}>	
+<div class="bordered calculator" onkeydown={() => ({input_string, equalstate, log} = handle_keypress(input_string, equalstate, event.key))}>
+    <div class="bordered inputbox" style="color:black">
+        <input class="invisible_input log" readonly value={(equalstate ? log : "")}>
+        <input class="invisible_input calc" readonly value={input_string}>	
+    </div><br>
     
     <div class="button-container">
         <button class="operator" onclick={() => {
             ({input_string, equalstate} = reset_calculator(input_string, equalstate))
             }}>C</button>
         <button aria-label="Backspace" class="operator" onclick={() => {
-            ({input_string} = backspace(input_string, equalstate))
+            ({input_string, equalstate} = backspace(input_string, equalstate))
             }}><img alt="Backspace" src="images/backspace_25dp.svg"></button>
         <button class="operator" onclick={() => {
-            ({input_string, equalstate} = operator_click(input_string, equalstate, "√"))
+            ({input_string, equalstate, log} = operator_click(input_string, equalstate, "√"))
             }}>√</button>
         <button class="operator" onclick={() => {
-            ({input_string, equalstate} = operator_click(input_string, equalstate, "÷"))
+            ({input_string, equalstate, log} = operator_click(input_string, equalstate, "÷"))
             }}>÷</button>
 
         <button class="number" onclick={() => {
@@ -46,7 +50,7 @@
             ({input_string, equalstate} = number_click(input_string, equalstate, "9"))
             }}>9</button>
         <button class="operator" onclick={() => {
-            ({input_string, equalstate} = operator_click(input_string, equalstate, "×"))
+            ({input_string, equalstate, log} = operator_click(input_string, equalstate, "×"))
             }}>×</button>
         
         <button class="number" onclick={() => {
@@ -59,7 +63,7 @@
             ({input_string, equalstate} = number_click(input_string, equalstate, "6"))
             }}>6</button>
         <button class="operator" onclick={() => {
-            ({input_string, equalstate} = operator_click(input_string, equalstate, "-"))
+            ({input_string, equalstate, log} = operator_click(input_string, equalstate, "-"))
             }}>-</button>
         
         <button class="number" onclick={() => {
@@ -72,17 +76,17 @@
             ({input_string, equalstate} = number_click(input_string, equalstate, "3"))
             }}>3</button>
         <button class="operator" onclick={() => {
-            ({input_string, equalstate} = operator_click(input_string, equalstate, "+"))
+            ({input_string, equalstate, log} = operator_click(input_string, equalstate, "+"))
             }}>+</button>
         
         <button class="number zero" onclick={() => {
             ({input_string, equalstate} = number_click(input_string, equalstate, "0"))
             }}>0</button>
         <button class="number" onclick={() => {
-            ({input_string, equalstate} = operator_click(input_string, equalstate, ","))
+            ({input_string, equalstate, log} = operator_click(input_string, equalstate, ","))
             }}>,</button>
         <button class="equal" onclick={() => {
-            ({input_string, equalstate} = calculate_result(input_string))
+            ({input_string, equalstate, log} = calculate_result(input_string))
             }}>=</button>        
     </div>
 </div>
@@ -137,6 +141,26 @@
             background: color-mix(in srgb, var(--button-background), black 4%);
         }
 	}
+    .invisible_input {
+        /* padding inside inputbox (make it relative to 1 character ~ 1ch) */
+        padding-block: 1ch;
+        padding-inline: 1ch;
+
+		background-color: white;
+		text-align: right;
+        border: none;
+        outline: none
+	}
+
+    .log {
+        color: gray;
+        font-size: 15px
+	}
+
+    .calc {
+        color: black;
+        font-size: 25px;
+    }
 
 	.inputbox {
         /* padding inside inputbox (make it relative to 1 character ~ 1ch) */
@@ -146,7 +170,6 @@
         /* space between inputbox and button-container */
         margin-bottom: var(--space);
 
-        font-size: 25px;
 		background-color: white;
 		text-align: right;
 	}
