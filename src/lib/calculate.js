@@ -15,6 +15,12 @@ export function calculate(expression) {
         return calculate((Math.sqrt(parseFloat(number))).toString())
     } else if (expression.includes("√")) {
         while (expression.includes("√")) {
+            for (let i = 0; i < expression?.length; i++){
+                if (expression[i] === "√" && expression[i+1] === "-"){
+                    return "NaN"
+                } 
+            }
+
             expression = expression.replace(/√(\d+(\.\d+)?)/g, (match, number) => {
                 return "*" + Math.sqrt(parseFloat(number)); // Erstatt √9 med 3
             });

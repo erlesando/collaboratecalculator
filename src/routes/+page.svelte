@@ -5,7 +5,12 @@
         let height = 550;
         let width = 350;
         const popup = window.open("/calculator", "Calculator", "popup, width="+ width + "px, height="+ height + "px");
-        if (popup) popup.focus();
+        if (popup) {
+            popup.focus();
+            popup.onload = () => {
+                popup.document.body.style.zoom = "100%"; // Ensure zoom is at 100%
+            };
+        }
     }
 </script>
 

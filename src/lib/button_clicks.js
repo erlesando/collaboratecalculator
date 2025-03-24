@@ -138,6 +138,7 @@ export function calculate_result(input_string) {
 
 // To use keys
 export function handle_keypress(input_string, equalstate, key) {
+    document.getElementById("input").focus()
     let log = "";
     if (/^\d$/.test(key)) {
         ({input_string, equalstate} = number_click(input_string, equalstate, key));

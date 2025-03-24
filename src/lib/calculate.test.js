@@ -84,6 +84,10 @@ describe("use_of_squareroot", () => {
     it("should be possible to use √ of big numbers", () => {
         expect(calculate("√9e10")).toBe(300000)
     })
+
+    it("should return NaN if √ of negative numbers", () => {
+        expect(calculate("√-9")).toBe("NaN")
+    })
 })
 
 describe("use negative numbers", () => {

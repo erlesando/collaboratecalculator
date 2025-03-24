@@ -2,10 +2,6 @@
     import Button from "./Button.svelte";
     import { onMount } from "svelte"
 
-    onMount(() => {
-        document.getElementById("input").focus(); // Automatically focuses the calculator div
-    });
-
     import { 
         is_operator, 
         is_number, 
@@ -20,14 +16,23 @@
         handle_keypress 
         } from "./button_clicks.js"
 
+    // Prevent doucle click zooming
+    onMount(() => {
+        const preventDoubleClickZoom = (event) => {
+            event.preventDefault(); // Block double-click zoom
+        };
+
+        document.getElementById("input").focus(); // Automatically focuses the calculator div
+        document.addEventListener("dblclick", preventDoubleClickZoom, { passive: false });
+    });
+
 	let equalstate = $state(false);
     let input_string = $state("");
     let log = $state("");
 </script>
 
-
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="bordered calculator" onkeydown={() => document.getElementById("input").focus() ({input_string, equalstate, log} = handle_keypress(input_string, equalstate, event.key))} >
+<div class="bordered calculator" onkeydown={() => ({input_string, equalstate, log} = handle_keypress(input_string, equalstate, event.key))}>
     <div class="bordered inputbox" style="color:black">
         <input class="invisible_input log" readonly value={(equalstate ? log : "")}/> <br>
         <input id="input" class="invisible_input calc" readonly value={input_string}/>	
