@@ -12,8 +12,7 @@
         backspace, 
         number_click, 
         operator_click, 
-        calculate_result,
-        handle_keypress 
+        calculate_result
         } from "./button_clicks.js"
 
     // Prevent doucle click zooming
@@ -25,6 +24,29 @@
         document.getElementById("input").focus(); // Automatically focuses the calculator div
         document.addEventListener("dblclick", preventDoubleClickZoom, { passive: false });
     });
+
+    function handle_keypress(input_string, equalstate, key) {
+        document.getElementById("input").focus()
+        let log = "";
+        if (/^\d$/.test(key)) {
+            ({input_string, equalstate} = number_click(input_string, equalstate, key));
+        } else if (/[+\-]/.test(key)) {
+            ({input_string, equalstate, log} = operator_click(input_string, equalstate, key));
+        } else if (key === "*") {
+            ({input_string, equalstate, log} = operator_click(input_string,equalstate, "×"));
+        } else if (key === "/") {
+            ({input_string, equalstate, log} = operator_click(input_string, equalstate, "÷"));
+        } else if (key === "," || key === ".") {
+            ({input_string, equalstate, log} = operator_click(input_string, equalstate, ","));
+        } else if (key === "Enter" || key === "=") {
+            ({input_string, equalstate, log} = calculate_result(input_string));
+        } else if (key === "Escape") {
+            ({input_string, equalstate} = reset_calculator(input_string, equalstate));
+        } else if (key === "Backspace") {
+            ({input_string} = backspace(input_string, equalstate));
+        }
+        return {input_string, equalstate, log}
+    }
 
 	let equalstate = $state(false);
     let input_string = $state("");

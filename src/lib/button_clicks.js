@@ -135,27 +135,3 @@ export function calculate_result(input_string) {
     }
     return {input_string, equalstate, log}
 }
-
-// To use keys
-export function handle_keypress(input_string, equalstate, key) {
-    document.getElementById("input").focus()
-    let log = "";
-    if (/^\d$/.test(key)) {
-        ({input_string, equalstate} = number_click(input_string, equalstate, key));
-    } else if (/[+\-]/.test(key)) {
-        ({input_string, equalstate, log} = operator_click(input_string, equalstate, key));
-    } else if (key === "*") {
-        ({input_string, equalstate, log} = operator_click(input_string,equalstate, "×"));
-    } else if (key === "/") {
-        ({input_string, equalstate, log} = operator_click(input_string, equalstate, "÷"));
-    } else if (key === "," || key === ".") {
-        ({input_string, equalstate, log} = operator_click(input_string, equalstate, ","));
-    } else if (key === "Enter" || key === "=") {
-        ({input_string, equalstate, log} = calculate_result(input_string));
-    } else if (key === "Escape") {
-        ({input_string, equalstate} = reset_calculator(input_string, equalstate));
-    } else if (key === "Backspace") {
-        ({input_string} = backspace(input_string, equalstate));
-    }
-    return {input_string, equalstate, log}
-}

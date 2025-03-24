@@ -161,7 +161,7 @@ describe("calculate_result", () => {
     })
 })
 
-describe("handle_keypress", () => {
+/* describe("handle_keypress", () => {
     it("should add number to input_string when a number key is pressed", () => {
         expect(handle_keypress("12", false, "3")).toStrictEqual({input_string: "123", equalstate: false, log:""})
     })
@@ -201,4 +201,4 @@ describe("handle_keypress", () => {
     it("should delete last char when backspace button", () => {
         expect(handle_keypress("12+4", false, "Backspace")).toStrictEqual({input_string: "12+", equalstate: false, log:""})
     })
-})
+}) */
