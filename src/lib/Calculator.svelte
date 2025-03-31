@@ -135,8 +135,8 @@
         at the top of the style block.
     */
     .calculator {
-        --space: 1rem;   /* general space between elements */
-        --font-size: 25px;
+        --space: 4vw;   /* general space between elements */
+        --font-size: 7vw;
 
         --border-color: black;
         --border: 2px solid var(--border-color);
@@ -177,12 +177,12 @@
 
     .log {
         color: gray;
-        font-size: 15px
+        font-size: calc(2*var(--font-size) / 3);
 	}
 
     .calc {
         color: black;
-        font-size: 25px;
+        font-size: var(--font-size);
     }
 
 	.inputbox {
@@ -201,6 +201,6 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(5, 1fr);
-        gap: 5px;
+        gap: 1vw;
     }
 </style>

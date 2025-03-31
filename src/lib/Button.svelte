@@ -4,7 +4,7 @@
 
 {#if sign==="Backspace"}
     <button class="{type}" {onclick} aria-label="Backspace">
-        <img alt="Backspace" src="images/backspace.svg">
+        <img alt="Backspace" src="images/backspace_button.svg">
     </button>
 {:else}
     <button tabindex="-1" class="{type}" {onclick}>
@@ -42,6 +42,6 @@
     img {
         display: block;
         margin: auto;
-        width: 50%;
+        height: var(--font-size);
     }
 </style>
