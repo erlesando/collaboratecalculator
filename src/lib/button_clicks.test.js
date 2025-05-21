@@ -157,7 +157,7 @@ describe("calculate_result", () => {
     })
 
     it("should be thrown error when dividing by zero", () => {
-        expect(calculate_result("3/0")).toStrictEqual({input_string: "Error", equalstate: false, log:"3/0"})
+        expect(calculate_result("3/0")).toStrictEqual({input_string: "Error", equalstate: true, log:"3/0"})
     })
 })
 

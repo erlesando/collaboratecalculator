@@ -131,6 +131,7 @@ export function calculate_result(input_string) {
         } catch (e) {
             console.error(e);
             input_string = "Error";
+            equalstate = true;
         }
     }
     return {input_string, equalstate, log}
