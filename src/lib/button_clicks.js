@@ -95,7 +95,7 @@ export function operator_click(input_string, equalstate, value) {
     }    
 
     // calculate squareroot of number if equalstate
-    if (equalstate && value === "√") {
+    if (equalstate && value === "√" && input_string !== "" && input_string !== "Error" && input_string !== "NaN") {
         ({input_string, equalstate, log} = calculate_result("√"+input_string));
         return {input_string, equalstate, log};
     }
